@@ -1,6 +1,6 @@
-from .github_provider import GitHubProvider
-from .gemini_provider import GeminiProvider
-from .local_provider import LocalProvider
+from app.llm_providers.github_provider import GitHubProvider
+from app.llm_providers.gemini_provider import GeminiProvider
+from app.llm_providers.local_provider import LocalProvider
 
 
 def get_llm_provider(provider_name: str):

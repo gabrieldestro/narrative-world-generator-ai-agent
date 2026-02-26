@@ -2,8 +2,8 @@ import os
 import time
 from openai import OpenAI
 from dotenv import load_dotenv
-from .base import BaseLLMProvider, LLMResponse
-from config import GITHUB_TOKEN, MODEL_NAME, BASE_URL
+from app.llm_providers.base import BaseLLMProvider, LLMResponse
+from app.config import GITHUB_TOKEN, MODEL_NAME, BASE_URL
 
 load_dotenv()
 

@@ -1,5 +1,5 @@
-from llm import call_llm
-from engine.ui import print_npc
+from app.llm import call_llm
+from app.engine.ui import print_npc
 
 def npc_phase(state):
 

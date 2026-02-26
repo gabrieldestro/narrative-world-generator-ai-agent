@@ -1,8 +1,8 @@
 from typing import TypedDict, Dict, List, Optional
-from model.world_state import WorldState
-from .location_state import LocationState
-from .npc_state import NPCState
-from .turn_state import TurnState   
+from app.model.world_state import WorldState
+from app.model.location_state import LocationState
+from app.model.npc_state import NPCState
+from app.model.turn_state import TurnState   
 
 class GameState(TypedDict):
     world: WorldState

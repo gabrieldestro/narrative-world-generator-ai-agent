@@ -1,10 +1,9 @@
 import random
 from urllib import response
-from engine.state_logger import log_game_state
-from consts import RANDOM_EVENT_CHANCE
-from llm import call_llm
-from engine.ui import print_world
-
+from app.consts import RANDOM_EVENT_CHANCE
+from app.llm import call_llm
+from app.engine.ui import print_world
+from app.engine.state_logger import log_game_state
 
 def world_phase(state):
 

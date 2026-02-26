@@ -1,9 +1,9 @@
 from langgraph.graph import StateGraph
-from model.game_state import GameState
+from app.model.game_state import GameState
 
-from engine.player_phase import player_phase
-from engine.npc_phase import npc_phase
-from engine.world_phase import world_phase
+from app.engine.player_phase import player_phase
+from app.engine.npc_phase import npc_phase
+from app.engine.world_phase import world_phase
 
 
 def build_graph():

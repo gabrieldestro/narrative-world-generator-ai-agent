@@ -1,5 +1,5 @@
 import json
-from logging_config import game_logger
+from app.logging_config import game_logger
 
 
 def log_game_state(state):

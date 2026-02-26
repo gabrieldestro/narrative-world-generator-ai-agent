@@ -1,6 +1,6 @@
 import time
 from openai import OpenAI
-from .base import BaseLLMProvider, LLMResponse
+from app.llm_providers.base import BaseLLMProvider, LLMResponse
 
 
 class LocalProvider(BaseLLMProvider):

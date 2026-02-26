@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
 
-from game_world.world import initialize_game
-from engine.graph_builder import build_graph
+from app.game_world.world import initialize_game
+from app.engine.graph_builder import build_graph
 
 def main():
     state = initialize_game()

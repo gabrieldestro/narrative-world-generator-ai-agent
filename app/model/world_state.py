@@ -1,5 +1,5 @@
 from typing import TypedDict, Dict, List
-from model.location_state import LocationState
+from app.model.location_state import LocationState
 
 class WorldState(TypedDict):
     world_prompt: str

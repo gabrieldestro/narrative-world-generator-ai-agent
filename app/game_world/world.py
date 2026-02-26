@@ -1,6 +1,6 @@
 import uuid
 
-from model.game_state import GameState
+from app.model.game_state import GameState
 
 def initialize_game() -> GameState:
 

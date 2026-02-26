@@ -2,11 +2,11 @@ import os
 from pydoc import text
 import time
 from dotenv import load_dotenv
-from engine.ui import stream_panel
 from openai import OpenAI
-from llm_providers.factory import get_llm_provider
-from config import MODEL_NAME, BASE_URL, PROVIDER_NAME
-from logging_config import llm_logger
+from app.logging_config import llm_logger
+from app.engine.ui import stream_panel
+from app.llm_providers.factory import get_llm_provider
+from app.config import MODEL_NAME, BASE_URL, PROVIDER_NAME
 import json
 
 def call_llm(
