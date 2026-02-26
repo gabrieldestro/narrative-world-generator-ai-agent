@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambientes Virtuais (Essencial ignorar a pasta venv)
+venv/
+env/
+ENV/
+.venv/
+.env
+docs/
+
+# Variáveis de ambiente (Segurança: NUNCA versione suas chaves de API)
+.env
+.flaskenv
+
+# Distribuição / Pacotes
+dist/
+build/
+*.egg-info/
+
+# Logs e bancos de dados locais
+*.log
+*.sqlite
+
+# Configurações de IDE (VS Code, PyCharm)
+.vscode/
+.idea/
