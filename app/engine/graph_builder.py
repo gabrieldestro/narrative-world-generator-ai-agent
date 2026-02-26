@@ -18,6 +18,5 @@ def build_graph():
 
     builder.add_edge("player", "npc")
     builder.add_edge("npc", "world")
-    builder.add_edge("world", "player")
 
     return builder.compile()
