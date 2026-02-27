@@ -1,5 +1,5 @@
 import json
-from app.logging_config import game_logger
+from app.logging_config import game_logger, story_logger
 
 
 def log_game_state(state):
@@ -9,3 +9,6 @@ def log_game_state(state):
         serialized = str(state)
 
     game_logger.info(serialized)
+
+def log(type: str, text: str):
+    story_logger.info(f"{type}\n{text}\n\n")

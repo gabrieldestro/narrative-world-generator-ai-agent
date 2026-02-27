@@ -21,6 +21,7 @@ build/
 *.egg-info/
 
 # Logs e bancos de dados locais
+logs/
 *.log
 *.sqlite
 

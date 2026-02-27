@@ -1,9 +1,11 @@
 from app.llm import call_llm
 from app.engine.ui import print_npc
+from app.engine.state_logger import log
+from app.config import PROVIDER_NAME
+from app.consts import SCENE_LOG_MEMORY
 
 def npc_phase(state):
-
-    location = state["player_location"]
+    location = state["player_state"]["current_location"]
 
     npcs_here = [
         npc for npc in state["npcs"].values()
@@ -22,7 +24,13 @@ def npc_phase(state):
         """
 
     system_prompt = f"""
-    Você simula NPCs em um RPG sandbox.
+    Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
+    Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador.
+    Trate o jogador pela descrição de seu personagem.
+
+    jogador:
+    {state['player_state']['name']}
+    {state['player_state']['description']}1
 
     Mundo:
     {state['world']['world_prompt']}
@@ -40,9 +48,14 @@ def npc_phase(state):
     O jogador fez:
     {state['turn_state']}
 
-    Histórico recente:
-    {state['scene_log'][-5:]}
     """
+
+    # indicado para modelos mais robustos
+    if (SCENE_LOG_MEMORY > 0):
+        system_prompt += f"""
+            Histórico recente:
+            {state['scene_log'][-SCENE_LOG_MEMORY:]}
+        """
 
     response = call_llm(system_prompt, user_prompt, "1")
 
@@ -53,5 +66,6 @@ def npc_phase(state):
 
     print("\nNPCs:")
     print_npc("NPCs", response)
+    log("NPCs", response)
 
     return state

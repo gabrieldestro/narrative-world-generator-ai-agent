@@ -4,6 +4,7 @@ from typing import TypedDict, Dict, List, Optional
 class NPCState(TypedDict):
     id: str
     name: str
+    appearance: str
     personality: str
     goals: List[str]
     current_location: str
