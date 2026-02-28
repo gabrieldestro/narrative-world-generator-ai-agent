@@ -22,6 +22,7 @@ build/
 
 # Logs e bancos de dados locais
 logs/
+saves/
 *.log
 *.sqlite
 

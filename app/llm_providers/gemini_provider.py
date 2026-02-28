@@ -1,7 +1,7 @@
 import os
 import time
 from google import genai
-from .base import BaseLLMProvider, LLMResponse
+from app.llm_providers.base import BaseLLMProvider, LLMResponse
 
 
 class GeminiProvider(BaseLLMProvider):

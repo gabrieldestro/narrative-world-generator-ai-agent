@@ -1,7 +1,6 @@
 from app.llm import call_llm
-from app.engine.ui import print_npc
-from app.engine.state_logger import log
-from app.config import PROVIDER_NAME
+from app.ui.print_terminal import print_npc
+from app.logging.state_logger import log
 from app.consts import SCENE_LOG_MEMORY
 
 def npc_phase(state):
@@ -26,7 +25,10 @@ def npc_phase(state):
     system_prompt = f"""
     Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
     Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador.
-    Trate o jogador pela descrição de seu personagem.
+    Trate o jogador pela descrição de seu personagem e nunca pelo termo 'Jogador'. Não de sugestões sobre o que o jogador pode fazer.
+
+    Gêneros da história: 
+    {state['genres']}
 
     jogador:
     {state['player_state']['name']}
@@ -57,8 +59,9 @@ def npc_phase(state):
             {state['scene_log'][-SCENE_LOG_MEMORY:]}
         """
 
-    response = call_llm(system_prompt, user_prompt, "1")
+    response = call_llm(system_prompt, user_prompt, state["turn_number"])
 
+    state["scene_log"].append(user_prompt)
     state["scene_log"].append(response)
 
     for npc in npcs_here:

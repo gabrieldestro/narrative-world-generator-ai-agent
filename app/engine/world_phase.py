@@ -2,8 +2,8 @@ import random
 from urllib import response
 from app.consts import RANDOM_EVENT_CHANCE
 from app.llm import call_llm
-from app.engine.ui import print_world
-from app.engine.state_logger import log
+from app.ui.print_terminal import print_world
+from app.logging.state_logger import log
 
 def world_phase(state):
 

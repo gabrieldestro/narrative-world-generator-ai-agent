@@ -4,7 +4,7 @@ import time
 from dotenv import load_dotenv
 from openai import OpenAI
 from app.logging_config import llm_logger
-from app.engine.ui import stream_panel
+from app.ui.print_terminal import stream_panel
 from app.llm_providers.factory import get_llm_provider
 from app.config import MODEL_NAME, BASE_URL, PROVIDER_NAME
 import json

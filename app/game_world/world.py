@@ -2,17 +2,19 @@ import uuid
 
 from app.model.game_state import GameState
 
-def initialize_game() -> GameState:
+def initialize_world() -> GameState:
 
     tavern_id = str(uuid.uuid4())
     merchant_id = str(uuid.uuid4())
 
     return {
+        "name": "Aventuras na vila Dunmar",
         "player_state": {
             "name": "Stranger",
             "current_location": "praça",
             "description": "Um aventureiro de olhos castanhos e cabelos castanhos."
         },
+        "genres": ["aventura", "ação"],
         "world": {
             "world_prompt": """
             Vila medieval chamada Dunmar.

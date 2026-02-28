@@ -6,7 +6,9 @@ from app.model.npc_state import NPCState
 from app.model.turn_state import TurnState   
 
 class GameState(TypedDict):
+    name: str
     world: WorldState
+    genres: List[str]
     npcs: Dict[str, NPCState]
     player_state: PlayerState
     turn_state: Optional[TurnState]
