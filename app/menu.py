@@ -3,6 +3,8 @@ from app.engine.graph_builder import build_graph
 from app.logging.state_logger import log_game_state, log
 from app.ui.print_terminal import *
 from app.repository.save_repository import *
+from app.repository.worlds_repository import *
+from app.game_world.world import DEFAULT_WORLD
 
 def ask_player_choice(state):
     print_player_options(state)
@@ -43,19 +45,18 @@ def choose_action(state):
 
 def choose_speak(state):
     speech = input("O que você quer dizer? ")
-    target = input("Para quem? ")
 
     target_id = None
-    for npc_id, npc in state["npcs"].items():
+    '''for npc_id, npc in state["npcs"].items():
         if npc["name"].lower() == target.lower():
-            target_id = npc_id
+            target_id = npc_id'''
 
     state["turn_state"] = {
         "player_choice_type": "speak",
         "player_content": speech,
-        "target_npc_id": target_id
+        "target_npc_id": None
     }
-    log("Player", f"2: {target} - {speech}")
+    log("Player", f"2: {speech}")
     
     return state
 
@@ -100,6 +101,25 @@ def choose_finish(state):
     
     return state
 
+def load_world_template():
+    worlds = list_worlds()
+
+    if not worlds:
+        print("Nenhuma template encontrado.")
+        return DEFAULT_WORLD
+
+    print("Templates disponíveis:")
+    for i, save in enumerate(worlds):
+        print(f"{i + 1}. {save}")
+
+    choice = int(input("Escolha um template: ")) - 1
+
+    if 0 <= choice < len(worlds):
+        return load_world(worlds[choice])
+    else:
+        print("Opção inválida, escolhendo a padrão.")
+        return DEFAULT_WORLD
+    
 def load_save():
     saves = list_saves()
 

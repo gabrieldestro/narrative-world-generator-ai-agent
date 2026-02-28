@@ -2,13 +2,9 @@ import uuid
 
 from app.model.game_state import GameState
 
-def initialize_world() -> GameState:
-
-    tavern_id = str(uuid.uuid4())
-    merchant_id = str(uuid.uuid4())
-
-    return {
+DEFAULT_WORLD = {
         "name": "Aventuras na vila Dunmar",
+        "additional_info": "Nenhuma",
         "player_state": {
             "name": "Stranger",
             "current_location": "praça",
@@ -37,8 +33,8 @@ def initialize_world() -> GameState:
             }
         },
         "npcs": {
-            tavern_id: {
-                "id": tavern_id,
+            "1": {
+                "id": "1",
                 "name": "Roderick",
                 "appearance": "",
                 "personality": "Taverneiro desconfiado, observador e pragmático.",
@@ -47,8 +43,8 @@ def initialize_world() -> GameState:
                 "memory": [],
                 "status": "active"
             },
-            merchant_id: {
-                "id": merchant_id,
+            "2": {
+                "id": "2",
                 "name": "Elira",
                 "appearance": "",
                 "personality": "Mercadora ambiciosa e persuasiva.",
@@ -62,3 +58,6 @@ def initialize_world() -> GameState:
         "scene_log": [],
         "turn_number": 1
     }
+
+def initialize_world() -> GameState:
+    return DEFAULT_WORLD

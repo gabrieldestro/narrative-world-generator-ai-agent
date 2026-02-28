@@ -16,7 +16,7 @@ def world_phase(state):
         {state['world']['world_prompt']}
 
         Local atual:
-        {state['player_location']}
+        {state["player_state"]["current_location"]}
 
         O evento deve ser sutil e natural.
         """

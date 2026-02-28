@@ -30,6 +30,9 @@ def npc_phase(state):
     Gêneros da história: 
     {state['genres']}
 
+    Informações adicionais:
+    {state['additional_info']}
+
     jogador:
     {state['player_state']['name']}
     {state['player_state']['description']}1

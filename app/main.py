@@ -16,7 +16,7 @@ def main():
 
     state = None
     if (choice == "1"):
-        state = initialize_world()
+        state = load_world_template()
         state = graph.invoke(state)
 
     elif (choice == "2"):
