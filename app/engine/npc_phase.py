@@ -18,7 +18,7 @@ def npc_phase(state):
     for npc in npcs_here:
         npc_context += f"""
         Nome: {npc['name']}
-        Personalidade: {npc['personality']}
+        Descrição: {npc['description']}
         Objetivos: {npc['goals']}
         """
 
@@ -26,7 +26,7 @@ def npc_phase(state):
     Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
     Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador.
     Trate o jogador pela descrição de seu personagem e nunca pelo termo 'Jogador'. Não de sugestões sobre o que o jogador pode fazer.
-
+    
     Gêneros da história: 
     {state['genres']}
 
@@ -47,6 +47,7 @@ def npc_phase(state):
     {npc_context}
 
     NPCs podem falar entre si, reagir ao jogador ou agir conforme seus objetivos.
+    Faça os NPCs serem ativos participantes que movem a história, não apenas rejam as ações do jogador.
     """
 
     user_prompt = f"""

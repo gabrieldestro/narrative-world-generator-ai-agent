@@ -76,7 +76,7 @@ def choose_move(state):
 
 def choose_wait(state):
     state["turn_state"] = {
-            "player_choice_type": "wait",
+            "player_choice_type": "continue",
             "player_content": "",
             "target_npc_id": None
         }
@@ -145,7 +145,7 @@ def print_player_options(state):
     print("\n1 - Agir")
     print("2 - Falar")
     print("3 - Mover")
-    print("4 - Não fazer nada")
+    print("4 - Continuar")
     print("5 - Salvar narrativa")
     print("0 - Sair")
 

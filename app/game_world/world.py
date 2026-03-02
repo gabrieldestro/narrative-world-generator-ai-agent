@@ -36,8 +36,7 @@ DEFAULT_WORLD = {
             "1": {
                 "id": "1",
                 "name": "Roderick",
-                "appearance": "",
-                "personality": "Taverneiro desconfiado, observador e pragmático.",
+                "description": "Taverneiro desconfiado, observador e pragmático.",
                 "goals": ["Manter a taverna segura", "Descobrir segredos da vila"],
                 "current_location": "taverna",
                 "memory": [],
@@ -46,8 +45,7 @@ DEFAULT_WORLD = {
             "2": {
                 "id": "2",
                 "name": "Elira",
-                "appearance": "",
-                "personality": "Mercadora ambiciosa e persuasiva.",
+                "description": "Mercadora ambiciosa e persuasiva.",
                 "goals": ["Expandir negócios", "Descobrir oportunidades lucrativas"],
                 "current_location": "praça",
                 "memory": [],
