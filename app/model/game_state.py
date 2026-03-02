@@ -3,7 +3,8 @@ from app.model.world_state import WorldState
 from app.model.location_state import LocationState
 from app.model.player_state import PlayerState
 from app.model.npc_state import NPCState
-from app.model.turn_state import TurnState   
+from app.model.turn_state import TurnState
+from app.tools.tool_executor import ToolExecutor   
 
 class GameState(TypedDict):
     name: str
@@ -15,3 +16,7 @@ class GameState(TypedDict):
     turn_state: Optional[TurnState]
     scene_log: List[str]
     turn_number: int
+
+    pending_tool_calls: Optional[List[dict]]
+    last_llm_message: Optional[str]
+    tool_executor: ToolExecutor

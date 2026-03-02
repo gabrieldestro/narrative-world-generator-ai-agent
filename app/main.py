@@ -3,6 +3,9 @@ import os
 from app.game_world.world import initialize_world
 from app.engine.graph_builder import build_graph
 from app.logging.state_logger import log_game_state, log
+from app.tools.create_location import create_location
+from app.tools.create_npc import create_npc
+from app.tools.tool_executor import ToolExecutor
 from app.ui.print_terminal import *
 from app.repository.save_repository import *
 
@@ -26,6 +29,11 @@ def main():
     else:
         print("Encerrando simulação")
         return
+    
+    tool_executor = ToolExecutor()
+    tool_executor.register("create_location", create_location)
+    tool_executor.register("create_npc", create_npc)
+    state["tool_executor"] = tool_executor
     
     while True:
         state = ask_player_choice(state)
