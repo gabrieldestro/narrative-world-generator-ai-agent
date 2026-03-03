@@ -11,6 +11,15 @@ from app.repository.save_repository import *
 
 from app.menu import *
 
+def create_tools(state):
+    tool_executor = ToolExecutor()
+    tool_executor.register("create_location", create_location)
+    tool_executor.register("create_npc", create_npc)
+    state["tool_executor"] = tool_executor
+
+    return state
+
+
 def main():
     graph = build_graph()
 
@@ -20,21 +29,18 @@ def main():
     state = None
     if (choice == "1"):
         state = load_world_template()
+        state = create_tools(state)
         state = graph.invoke(state)
 
     elif (choice == "2"):
         state = load_save()
+        state = create_tools(state)
         print_npc("NPCs", state["scene_log"][-1])
         
     else:
         print("Encerrando simulação")
         return
-    
-    tool_executor = ToolExecutor()
-    tool_executor.register("create_location", create_location)
-    tool_executor.register("create_npc", create_npc)
-    state["tool_executor"] = tool_executor
-    
+
     while True:
         state = ask_player_choice(state)
         if (state["turn_state"]["player_choice_type"] == "finish"):

@@ -28,8 +28,7 @@ WORLD_TOOLS_SCHEMA = [
                 "properties": {
                     "id": {"type": "string"},
                     "name": {"type": "string"},
-                    "appearance": {"type": "string"},
-                    "personality": {"type": "string"},
+                    "description": {"type": "string"},
                     "goals": {
                         "type": "array",
                         "items": {"type": "string"}

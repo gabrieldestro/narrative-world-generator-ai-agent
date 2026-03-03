@@ -1,4 +1,4 @@
-from langgraph.graph import StateGraph
+from langgraph.graph import END, StateGraph
 from app.engine.tools_phase import tools_phase
 from app.model.game_state import GameState
 
@@ -9,6 +9,11 @@ from app.engine.summary_phase import summary_phase
 
 def has_tool_calls(state: GameState):
     return bool(state.get("pending_tool_calls"))
+
+def should_run_tools(state: GameState):
+    if state.get("pending_tool_calls"):
+        return "tools"
+    return "__end__"
 
 def build_graph():
 
@@ -25,16 +30,17 @@ def build_graph():
     builder.add_edge("player", "npc")
     builder.add_edge("npc", "world")
     builder.add_edge("world", "summary")
-    
+
     builder.add_conditional_edges(
         "world",
-        has_tool_calls,
+        should_run_tools,
         {
-            True: "tools",
-            False: "summary"
+            "tools": "tools",
+            "summary": "summary"
         }
     )
 
-    builder.add_edge("tools", "summary")
+    builder.add_edge("tools", "world")
+    builder.add_edge("summary", END)
 
     return builder.compile()

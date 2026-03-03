@@ -54,7 +54,8 @@ DEFAULT_WORLD = {
         },
         "turn_state": None,
         "scene_log": [],
-        "turn_number": 1
+        "turn_number": 1,
+        "tool_executor": None
     }
 
 def initialize_world() -> GameState:
