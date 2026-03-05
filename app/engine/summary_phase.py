@@ -5,7 +5,7 @@ from app.config import DEBUG
 from app.consts import SCENE_LOG_MEMORY
 
 def summary_phase(state):
-
+    print("summary_phase")
     if (len(state['scene_log']) >= SCENE_LOG_MEMORY):
         system_prompt = f"""
             Você é o narrador de um mundo Sandbox seu objetivo é resumir os principais acontecimentos até agora

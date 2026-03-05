@@ -7,7 +7,7 @@ from app.tools.create_npc import create_npc
 
 
 def tools_phase(state: GameState) -> Dict[str, Any]:
-
+    print("tools_phase")
     tool_calls = state.get("pending_tool_calls", [])
 
     if not tool_calls:
@@ -27,6 +27,5 @@ def tools_phase(state: GameState) -> Dict[str, Any]:
         results.append(result)
 
     return {
-        "pending_tool_calls": [],
-        "scene_log": state["scene_log"] + results
+        "scene_log": state["scene_log"]# + results
     }

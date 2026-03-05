@@ -2,8 +2,8 @@ from app.model.game_state import GameState
 
 
 def create_location(state: GameState, name: str, description: str, connected_to: list[str]):
-    print("calling create_location tool")
-    
+    print(f"calling create_location tool: {name} {connected_to}")
+
     if name in state["world"]["locations"]:
         return state
 
@@ -13,4 +13,5 @@ def create_location(state: GameState, name: str, description: str, connected_to:
         "connected_to": connected_to
     }
 
+    print("Location criada!")
     return state

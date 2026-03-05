@@ -13,7 +13,7 @@ def has_tool_calls(state: GameState):
 def should_run_tools(state: GameState):
     if state.get("pending_tool_calls"):
         return "tools"
-    return "__end__"
+    return "summary"
 
 def build_graph():
 
@@ -40,7 +40,6 @@ def build_graph():
         }
     )
 
-    builder.add_edge("tools", "world")
     builder.add_edge("summary", END)
 
     return builder.compile()

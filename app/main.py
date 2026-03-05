@@ -53,7 +53,8 @@ def main():
         
         state = graph.invoke(state)
         log_game_state(state)
-
+        
+        print(f"End turn {state["turn_number"]}")
         state["turn_number"] += 1
 
 if __name__ == "__main__":

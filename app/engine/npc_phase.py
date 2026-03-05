@@ -4,6 +4,7 @@ from app.logging.state_logger import log
 from app.consts import SCENE_LOG_MEMORY
 
 def npc_phase(state):
+    print("npc_phase")
     location = state["player_state"]["current_location"]
 
     npcs_here = [

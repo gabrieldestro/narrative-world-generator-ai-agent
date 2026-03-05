@@ -10,7 +10,7 @@ def create_npc(
     current_location: str,
     status: str
 ):
-    print("calling create_npc tool")
+    print(f"calling create_npc tool: {id} {name} {description} {goals} {current_location} {status}")
 
     if id in state["npcs"]:
         return state
@@ -27,5 +27,7 @@ def create_npc(
         "memory": [],
         "status": status
     }
+
+    print(f"NPC criado!")
 
     return state
