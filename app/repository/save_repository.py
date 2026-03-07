@@ -4,6 +4,13 @@ from datetime import datetime
 
 SAVE_DIR = "saves"
 
+def _make_serializable_state(state: dict):
+    safe_state = dict(state)
+
+    safe_state.pop("tool_executor", None)
+
+    return safe_state
+
 def ensure_save_dir():
     if not os.path.exists(SAVE_DIR):
         os.makedirs(SAVE_DIR)
@@ -32,7 +39,8 @@ def save_game(game_state):
 
     filepath = os.path.join(SAVE_DIR, f"{game_state["name"]}_{timestamp}.json")
 
+    safe_state = _make_serializable_state(game_state)
     with open(filepath, "w", encoding="utf-8") as f:
-        json.dump(game_state, f, indent=4)
+        json.dump(safe_state, f, indent=4)
 
     print(f"Jogo salvo em: {filepath}")

@@ -26,6 +26,4 @@ def tools_phase(state: GameState) -> Dict[str, Any]:
 
         results.append(result)
 
-    return {
-        "scene_log": state["scene_log"]# + results
-    }
+    return {}

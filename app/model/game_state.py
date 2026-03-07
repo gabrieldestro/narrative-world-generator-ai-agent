@@ -1,5 +1,6 @@
 import operator
 from typing import Annotated, TypedDict, Dict, List, Optional
+from app.model.quest_state import QuestState
 from app.model.world_state import WorldState
 from app.model.location_state import LocationState
 from app.model.player_state import PlayerState
@@ -12,10 +13,12 @@ class GameState(TypedDict):
     additional_info: str
     world: WorldState
     genres: List[str]
+    quests: Dict[str, QuestState]
     npcs: Dict[str, NPCState]
     player_state: PlayerState
     turn_state: Optional[TurnState]
-    scene_log: Annotated[List[str], operator.add]
+    #scene_log: Annotated[List[str], operator.add]
+    scene_log: List[str]
     turn_number: int
 
     pending_tool_calls: Optional[List[dict]]

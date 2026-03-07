@@ -7,6 +7,11 @@ def npc_phase(state):
     print("npc_phase")
     location = state["player_state"]["current_location"]
 
+    turn = state.get("turn_state")
+    player_action = ""
+    if turn:
+        player_action = f"{turn['player_content']}"
+
     npcs_here = [
         npc for npc in state["npcs"].values()
         if npc["current_location"] == location and npc["status"] == "active"
@@ -22,6 +27,8 @@ def npc_phase(state):
         Descrição: {npc['description']}
         Objetivos: {npc['goals']}
         """
+
+    history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
 
     system_prompt = f"""
     Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
@@ -53,24 +60,22 @@ def npc_phase(state):
 
     user_prompt = f"""
     O jogador fez:
-    {state['turn_state']}
+        {player_action}
 
     """
 
     # indicado para modelos mais robustos
     if (SCENE_LOG_MEMORY > 0):
         system_prompt += f"""
-            Histórico recente:
-            {state['scene_log'][-SCENE_LOG_MEMORY:]}
+        Histórico recente:
+            {history}
         """
 
     response = call_llm(system_prompt, user_prompt, state["turn_number"])
 
-    state["scene_log"].append(user_prompt)
+    if (turn):
+        state["scene_log"].append(f"Jogador: {player_action}")
     state["scene_log"].append(response)
-
-    for npc in npcs_here:
-        npc["memory"].append(response)
 
     print("\nNPCs:")
     print_npc("NPCs", response)

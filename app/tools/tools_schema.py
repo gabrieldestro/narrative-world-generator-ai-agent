@@ -2,6 +2,80 @@ WORLD_TOOLS_SCHEMA = [
     {
         "type": "function",
         "function": {
+            "name": "move_player",
+            "description": "Move o jogador para um local conectado ao atual",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "to_location": {
+                        "type": "string",
+                        "description": "Nome do local de destino"
+                    }
+                },
+                "required": ["to_location"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "move_npc",
+            "description": "Move um NPC para outro local conectado",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "npc_id": {"type": "string"},
+                    "to_location": {"type": "string"}
+                },
+                "required": ["npc_id", "to_location"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "complete_quest",
+            "description": "Marca uma quest como completada",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "quest_id": {"type": "string"}
+                },
+                "required": ["quest_id"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "add_item",
+            "description": "Adiciona um item ao inventário do jogador",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item": {"type": "string"}
+                },
+                "required": ["item"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "remove_item",
+            "description": "Remove um item do inventário do jogador",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item": {"type": "string"}
+                },
+                "required": ["item"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "create_location",
             "description": "Cria um novo local no mundo",
             "parameters": {

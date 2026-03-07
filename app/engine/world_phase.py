@@ -23,7 +23,9 @@ def world_phase(state):
     npc_context = ""
     for npc in npcs:
         npc_context += f"""
+        ID: {npc['id']}
         Nome: {npc['name']}
+        Local antes do ultimo histórico: {npc['current_location']}
         """
 
     locations_context = ""
@@ -31,6 +33,8 @@ def world_phase(state):
         locations_context += f"""
         Nome: {location['name']}
         """
+
+    history = "\n".join(state['scene_log'][-2:])
 
     system_prompt = f"""
     Baseado na ultima rodada de iterações:
@@ -40,26 +44,34 @@ def world_phase(state):
 
     NPCs atuais:
         {npc_context}
-        
-    Histórico recente:
-        {state['scene_log'][-2:]}
+
+    Local atual do jogador antes do útiimo histórico:
+        {state['player_state']['current_location']}
 
     Mundo atual:
-    {state['world']['world_prompt']}
-
-    Local atual do jogador:
-    {state['player_state']['current_location']}
+        {state['world']['world_prompt']}
+            
+    Histórico recente:
+        {history}
     """
 
     user_prompt = f"""
-        Decida:
-        Se precisar criar um novo local, use a ferramenta create_location.
-        Se precisar criar um novo NPC, use create_npc.
-        Caso contrário, não faça nada.
+        Decida se alguma mudança no estado do mundo precisa ocorrer.
 
-        Instruções:
-        Somente crie ferramentas e Npcs relevantes, não polua a história com personagens ou locais demais, se for um personagem ou local não importante, não o crie.
-        SOMENTE USE AS FERRAMENTAS SE O HíSTÓRICO APRESENTAR UM LOCAL OU NPC Não existente!
+        IMPORTANTE:
+        Se um personagem ou NPC se mover de um local para outro,
+        você DEVE usar a ferramenta move_npc ou move_player para
+        atualizar o estado do mundo.
+
+        A narrativa sozinha não altera o estado do mundo.
+
+        Use ferramentas quando ocorrer:
+
+        - criação de novos locais
+        - criação de novos NPCs
+        - movimento de NPCs ou do jogador entre locais
+        - mudança de estado ou objetivos de NPCs
+        - criação ou resolução de eventos do mundo
     """
     response = call_llm_with_tools(system_prompt, user_prompt, tools=WORLD_TOOLS_SCHEMA, turn_id=state["turn_number"])
 

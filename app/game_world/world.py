@@ -8,9 +8,11 @@ DEFAULT_WORLD = {
         "player_state": {
             "name": "Stranger",
             "current_location": "praça",
-            "description": "Um aventureiro de olhos castanhos e cabelos castanhos."
+            "description": "Um aventureiro de olhos castanhos e cabelos castanhos.",
+            "inventory": []
         },
         "genres": ["aventura", "ação"],
+        "quests": {},
         "world": {
             "world_prompt": """
             Vila medieval chamada Dunmar.

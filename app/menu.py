@@ -20,10 +20,7 @@ def ask_player_choice(state):
     elif choice == "2":
         state = choose_speak(state)
 
-    elif choice == "3":
-        state = choose_move(state)
-
-    elif choice == "5":
+    elif choice == "4":
         state = choose_save(state)
 
     else:
@@ -144,9 +141,8 @@ def print_player_options(state):
     print("Local:", state["player_state"]["current_location"])
     print("\n1 - Agir")
     print("2 - Falar")
-    print("3 - Mover")
-    print("4 - Continuar")
-    print("5 - Salvar narrativa")
+    print("3 - Continuar")
+    print("4 - Salvar narrativa")
     print("0 - Sair")
 
 def print_init_options():
