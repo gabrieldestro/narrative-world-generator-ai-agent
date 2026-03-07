@@ -1,6 +1,6 @@
 import random
 from urllib import response
-from app.consts import RANDOM_EVENT_CHANCE
+from app.consts import RANDOM_EVENT_CHANCE, SCENE_LOG_MEMORY
 from app.llm import call_llm
 from app.ui.print_terminal import print_world
 from app.logging.state_logger import log
@@ -18,6 +18,9 @@ def world_phase(state):
         Local atual:
         {state["player_state"]["current_location"]}
 
+        Histórico recente:
+            {state['scene_log'][-SCENE_LOG_MEMORY:]}
+            
         O evento deve ser sutil e natural.
         """
 
