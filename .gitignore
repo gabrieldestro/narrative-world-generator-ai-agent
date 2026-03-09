@@ -23,6 +23,7 @@ build/
 # Logs e bancos de dados locais
 logs/
 saves/
+story/
 worlds/
 *.log
 *.sqlite

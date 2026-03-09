@@ -1,10 +1,10 @@
 from app.llm import call_llm
+from app.repository.story_repository import append_story
 from app.ui.print_terminal import print_npc
 from app.logging.state_logger import log
 from app.consts import SCENE_LOG_MEMORY
 
 def npc_phase(state):
-    print("npc_phase")
     location = state["player_state"]["current_location"]
 
     turn = state.get("turn_state")
@@ -75,9 +75,10 @@ def npc_phase(state):
 
     if (turn):
         state["scene_log"].append(f"Jogador: {player_action}")
+        append_story(state, f"Jogador: {player_action}")
     state["scene_log"].append(response)
+    append_story(state, response)
 
-    print("\nNPCs:")
     print_npc("NPCs", response)
     log("NPCs", response)
 

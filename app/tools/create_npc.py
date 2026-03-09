@@ -1,3 +1,4 @@
+from app.logging.state_logger import log
 from app.model.game_state import GameState
 
 
@@ -10,7 +11,7 @@ def create_npc(
     current_location: str,
     status: str
 ):
-    print(f"calling create_npc tool: {id} {name} {description} {goals} {current_location} {status}")
+    log("tools", f"calling create_npc tool: {id} {name} {description} {goals} {current_location} {status}")
 
     if id in state["npcs"]:
         return state
@@ -28,6 +29,6 @@ def create_npc(
         "status": status
     }
 
-    print(f"NPC criado!")
+    log("tools", f"NPC criado!")
 
     return state

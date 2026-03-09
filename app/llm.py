@@ -1,6 +1,7 @@
 import os
 from pydoc import text
 import time
+from app.logging.state_logger import log
 from dotenv import load_dotenv
 from openai import OpenAI
 from app.logging_config import llm_logger
@@ -18,7 +19,7 @@ def call_llm(
     provider = get_llm_provider(PROVIDER_NAME)
 
     stream_panel("Sistema", "Processando. Aguarde ...", "magenta")
-    print(f"\n\ncall_llm: {system_prompt} \n {user_prompt}\n\n")
+    log("debug", f"\n\ncall_llm: {system_prompt} \n {user_prompt}\n\n")
 
     response = provider.generate(
         system_prompt=system_prompt,
@@ -56,7 +57,7 @@ def call_llm_with_tools(
     provider = get_llm_provider(PROVIDER_NAME)
 
     stream_panel("Sistema", "Processando. Aguarde ...", "magenta")
-    print(f"\n\ncall_llm_with_tools: {system_prompt} \n {user_prompt}\n\n")
+    log("debug", f"\n\ncall_llm_with_tools: {system_prompt} \n {user_prompt}\n\n")
 
     response = provider.generate_with_tools(
         system_prompt=system_prompt,

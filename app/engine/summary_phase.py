@@ -5,7 +5,6 @@ from app.config import DEBUG
 from app.consts import SCENE_LOG_MEMORY
 
 def summary_phase(state):
-    print("summary_phase")
     if (len(state['scene_log']) >= SCENE_LOG_MEMORY):
         history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
 

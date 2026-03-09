@@ -47,4 +47,4 @@ def setup_logger(name: str, file_name: str):
 
 game_logger = setup_logger("game_logger", "game_state.json")
 llm_logger = setup_logger("llm_logger", "llm_calls.json")
-story_logger = setup_logger("story_logger", "story.log")
+story_logger = setup_logger("story_logger", "log.log")

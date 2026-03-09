@@ -1,8 +1,9 @@
+from app.logging.state_logger import log
 from app.model.game_state import GameState
 
 
 def complete_quest(state: GameState, quest_id: str):
-    print("complete_quest")
+    log("tools", "complete_quest")
     
     quest = state["quests"].get(quest_id)
 
@@ -11,5 +12,5 @@ def complete_quest(state: GameState, quest_id: str):
 
     quest["status"] = "completed"
 
-    print(f"Quest {quest['name']} foi completada")
+    log("tools", f"Quest {quest['name']} foi completada")
     return f"Quest {quest['name']} foi completada"

@@ -11,7 +11,6 @@ from app.logging.state_logger import log
 
 
 def world_phase(state):
-    print("world_phase")
     npcs = [
         npc for npc in state["npcs"].values()
         if npc["status"] == "active"
