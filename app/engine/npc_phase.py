@@ -36,7 +36,7 @@ def npc_phase(state):
     Trate o jogador pela descrição de seu personagem e nunca pelo termo 'Jogador'. Não de sugestões sobre o que o jogador pode fazer.
     
     Gêneros da história: 
-    {state['genres']}
+    {", ".join(state['genres'])}
 
     Informações adicionais:
     {state['additional_info']}

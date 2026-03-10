@@ -3,9 +3,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+DEBUG = os.getenv("DEBUG") == "1"
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 PROVIDER_NAME = os.getenv("PROVIDER_NAME")
-DEBUG = os.getenv("DEBUG") == 1
+
+'''
+0 - LITE
+1 - COMPLETE
+'''
+SIMULATION_TYPE = os.getenv("SIMULATION_TYPE")
 
 if not PROVIDER_NAME:
     raise ValueError("PROVIDER_NAME not defined in environment.")

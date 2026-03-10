@@ -1,3 +1,5 @@
+from app.config import SIMULATION_TYPE
+from app.consts import LITE_SIMULATION
 from app.game_world.world import initialize_world
 from app.engine.graph_builder import build_graph
 from app.logging.state_logger import log_game_state, log
@@ -150,3 +152,13 @@ def print_init_options():
     print("\n1 - Nova narrativa")
     print("2 - Carregar")
     print("0 - Sair")
+
+def print_simulation_mode():
+    print(SIMULATION_TYPE)
+    
+    if (SIMULATION_TYPE == LITE_SIMULATION):
+        sim_mode = "LITE"
+    else:
+        sim_mode = "COMPLETE"
+
+    print(f"SIMULATION MODE: {sim_mode}")
