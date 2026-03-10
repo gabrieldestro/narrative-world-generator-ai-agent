@@ -14,12 +14,12 @@ DEFAULT_WORLD = {
         "genres": ["aventura", "ação"],
         "quests": {},
         "world": {
-            "world_prompt": """
-            Vila medieval chamada Dunmar.
-            Tensões políticas silenciosas.
-            Rumores sobre criaturas na floresta.
-            Uma ordem secreta atua nas sombras.
-            """,
+            "world_prompt": [
+                "Vila medieval chamada Dunmar.",
+                "Tensões políticas silenciosas.",
+                "Rumores sobre criaturas na floresta.",
+                "Uma ordem secreta atua nas sombras."
+            ],
             "global_events": [],
             "locations": {
                 "taverna": {

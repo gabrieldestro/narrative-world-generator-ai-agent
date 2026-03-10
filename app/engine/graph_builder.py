@@ -1,6 +1,7 @@
 from app.config import SIMULATION_TYPE
 from app.consts import COMPLETE_SIMULATION, LITE_SIMULATION
 from app.tools.add_item import add_item
+from app.tools.add_world_fact import add_world_fact
 from app.tools.change_npc_status import change_npc_status
 from app.tools.complete_quest import complete_quest
 from app.tools.create_location import create_location
@@ -8,7 +9,9 @@ from app.tools.create_npc import create_npc
 from app.tools.move_npc import move_npc
 from app.tools.move_player import move_player
 from app.tools.remove_item import remove_item
+from app.tools.remove_world_fact import remove_world_fact
 from app.tools.tool_executor import ToolExecutor
+from app.tools.update_world_fact import update_world_fact
 from langgraph.graph import END, StateGraph
 from app.engine.tools_phase import tools_phase
 from app.model.game_state import GameState
@@ -83,12 +86,15 @@ def build_tools(state):
         tool_executor = ToolExecutor()
         tool_executor.register("create_location", create_location)
         tool_executor.register("create_npc", create_npc)
-        tool_executor.register("move_npc", move_npc)
         tool_executor.register("change_npc_status", change_npc_status)
+        tool_executor.register("move_npc", move_npc)
         tool_executor.register("move_player", move_player)
         tool_executor.register("add_item", add_item)
         tool_executor.register("remove_item", remove_item)
         tool_executor.register("complete_quest", complete_quest)
+        tool_executor.register("add_world_fact", add_world_fact)
+        tool_executor.register("update_world_fact", update_world_fact)
+        tool_executor.register("remove_world_fact", remove_world_fact)
 
         state["tool_executor"] = tool_executor
 

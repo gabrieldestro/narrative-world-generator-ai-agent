@@ -34,7 +34,7 @@ WORLD_TOOLS_SCHEMA = [
     {
         "type": "function",
         "function": {
-            "name": "set_npc_status",
+            "name": "change_npc_status",
             "description": "Altera o status de um NPC (active ou inactive)",
             "parameters": {
                 "type": "object",
@@ -133,6 +133,61 @@ WORLD_TOOLS_SCHEMA = [
                     "status": {"type": "string"}
                 },
                 "required": ["id", "name", "current_location", "status"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "add_world_fact",
+            "description": "Adiciona uma nova informação estrutural ao mundo",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "fact": {
+                        "type": "string",
+                        "description": "Nova informação sobre o mundo"
+                    }
+                },
+                "required": ["fact"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "update_world_fact",
+            "description": "Edita uma informação existente sobre o mundo",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "index": {
+                        "type": "integer",
+                        "description": "Índice da informação a ser editada"
+                    },
+                    "fact": {
+                        "type": "string",
+                        "description": "Nova versão da informação"
+                    }
+                },
+                "required": ["index", "fact"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "remove_world_fact",
+            "description": "Remove uma informação do mundo que não é mais verdadeira",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "index": {
+                        "type": "integer",
+                        "description": "Índice da informação a ser removida"
+                    }
+                },
+                "required": ["index"]
             }
         }
     }

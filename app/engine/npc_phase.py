@@ -6,7 +6,13 @@ from app.logging.state_logger import log
 from app.consts import COMPLETE_SIMULATION, SCENE_LOG_MEMORY
 
 def npc_phase(state):
+    # quebrar essa estrutura em funções menores
     location = state["player_state"]["current_location"]
+
+    world_context = ""
+
+    for i, line in enumerate(state["world"]["world_prompt"]):
+        world_context += f"{i}: {line}\n"
 
     turn = state.get("turn_state")
     player_action = ""
@@ -26,7 +32,7 @@ def npc_phase(state):
         npc_context += f"""
         Nome: {npc['name']}
         Descrição: {npc['description']}
-        Objetivos: {npc['goals']}
+        Objetivos: {", ".join(npc['goals'])}
         """
 
     inventory = ""
@@ -52,7 +58,7 @@ def npc_phase(state):
     {inventory}
         
     Mundo:
-    {state['world']['world_prompt']}
+    {world_context}
 
     Local atual:
     {location}

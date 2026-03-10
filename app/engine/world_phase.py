@@ -11,6 +11,12 @@ from app.logging.state_logger import log
 
 
 def world_phase(state):
+    # quebrar em funções menores
+    world_context = ""
+
+    for i, line in enumerate(state["world"]["world_prompt"]):
+        world_context += f"{i}: {line}\n"
+
     npcs = [
         npc for npc in state["npcs"].values()
         if npc["status"] == "active"
@@ -65,11 +71,11 @@ def world_phase(state):
         {", ".join(state['player_state']["inventory"])}
 
     Mundo atual:
-        {state['world']['world_prompt']}
+        {world_context}
 
     Quests:
         {quests_context}
-        
+
     Histórico recente:
         {history}
     """
@@ -83,6 +89,8 @@ def world_phase(state):
         atualizar o estado do mundo.
 
         A narrativa sozinha não altera o estado do mundo.
+        O estado do mundo é representado como uma lista numerada de fatos.
+        Sempre use o índice correto ao modificar ou remover fatos.
 
         Use ferramentas quando ocorrer:
 
@@ -91,7 +99,11 @@ def world_phase(state):
         - movimento de NPCs ou do jogador entre locais
         - mudança de estado ou objetivos de NPCs
         - criação ou resolução de eventos do mundo
+        - adicionar um novo fato usando add_world_fact
+        - modificar um fato existente usando update_world_fact
+        - remover um fato que não é mais verdadeiro usando remove_world_fact
     """
+    
     response = call_llm_with_tools(system_prompt, user_prompt, tools=WORLD_TOOLS_SCHEMA, turn_id=state["turn_number"])
 
     updates = {
