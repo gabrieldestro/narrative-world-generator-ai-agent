@@ -27,6 +27,20 @@ def world_phase(state):
         Local antes do ultimo histórico: {npc['current_location']}
         """
 
+    quests = [
+        quest for quest in state["quests"].values()
+        if
+            quest["status"] == "active"
+    ]
+
+    quests_context = ""
+    for quest in quests:
+        quests_context += f"""
+        ID: {quest['id']}
+        Nome: {quest['name']}
+        Nome: {quest['description']}
+        """
+
     locations_context = ""
     for location in state['world']['locations'].values():
         locations_context += f"""
@@ -47,9 +61,15 @@ def world_phase(state):
     Local atual do jogador antes do útiimo histórico:
         {state['player_state']['current_location']}
 
+    Inventário do jogador:
+        {", ".join(state['player_state']["inventory"])}
+
     Mundo atual:
         {state['world']['world_prompt']}
-            
+
+    Quests:
+        {quests_context}
+        
     Histórico recente:
         {history}
     """

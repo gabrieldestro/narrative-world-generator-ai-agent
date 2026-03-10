@@ -1,5 +1,6 @@
 import operator
 from typing import Annotated, TypedDict, Dict, List, Optional
+import uuid
 from app.model.quest_state import QuestState
 from app.model.world_state import WorldState
 from app.model.location_state import LocationState
@@ -9,6 +10,7 @@ from app.model.turn_state import TurnState
 from app.tools.tool_executor import ToolExecutor   
 
 class GameState(TypedDict):
+    # world descriptor
     name: str
     additional_info: str
     world: WorldState
@@ -17,10 +19,11 @@ class GameState(TypedDict):
     npcs: Dict[str, NPCState]
     player_state: PlayerState
     turn_state: Optional[TurnState]
-    #scene_log: Annotated[List[str], operator.add]
     scene_log: List[str]
     turn_number: int
 
+    # simulation engine properties
+    simulation_id: uuid.UUID
     pending_tool_calls: Optional[List[dict]]
     last_llm_message: Optional[str]
     tool_executor: ToolExecutor

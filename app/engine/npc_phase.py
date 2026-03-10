@@ -1,8 +1,9 @@
+from app.config import SIMULATION_TYPE
 from app.llm import call_llm
 from app.repository.story_repository import append_story
 from app.ui.print_terminal import print_npc
 from app.logging.state_logger import log
-from app.consts import SCENE_LOG_MEMORY
+from app.consts import COMPLETE_SIMULATION, SCENE_LOG_MEMORY
 
 def npc_phase(state):
     location = state["player_state"]["current_location"]
@@ -28,6 +29,10 @@ def npc_phase(state):
         Objetivos: {npc['goals']}
         """
 
+    inventory = ""
+    if (SIMULATION_TYPE == COMPLETE_SIMULATION):
+        inventory = f"Inventário: {", ".join(state['player_state']["inventory"])}"
+    
     history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
 
     system_prompt = f"""
@@ -43,8 +48,9 @@ def npc_phase(state):
 
     jogador:
     {state['player_state']['name']}
-    {state['player_state']['description']}1
-
+    {state['player_state']['description']}
+    {inventory}
+        
     Mundo:
     {state['world']['world_prompt']}
 
@@ -64,7 +70,6 @@ def npc_phase(state):
 
     """
 
-    # indicado para modelos mais robustos
     if (SCENE_LOG_MEMORY > 0):
         system_prompt += f"""
         Histórico recente:

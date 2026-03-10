@@ -34,6 +34,28 @@ WORLD_TOOLS_SCHEMA = [
     {
         "type": "function",
         "function": {
+            "name": "set_npc_status",
+            "description": "Altera o status de um NPC (active ou inactive)",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "npc_id": {
+                        "type": "string",
+                        "description": "ID do NPC"
+                    },
+                    "status": {
+                        "type": "string",
+                        "description": "Novo status do NPC",
+                        "enum": ["active", "inactive"]
+                    }
+                },
+                "required": ["npc_id", "status"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
             "name": "complete_quest",
             "description": "Marca uma quest como completada",
             "parameters": {

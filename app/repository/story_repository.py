@@ -11,7 +11,7 @@ def ensure_story_dir():
 def append_story(game_state, text):
     ensure_story_dir()
 
-    filename = f"{game_state['name']}.txt"
+    filename = f"{game_state['name']}_{game_state['simulation_id']}.txt"
     filepath = os.path.join(STORY_DIR, filename)
 
     with open(filepath, "a", encoding="utf-8") as f:

@@ -37,7 +37,7 @@ def save_game(game_state):
     ensure_save_dir()
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    filepath = os.path.join(SAVE_DIR, f"{game_state["name"]}_{timestamp}.json")
+    filepath = os.path.join(SAVE_DIR, f"{game_state["name"]}_{game_state['simulation_id']}_{timestamp}.json")
 
     safe_state = _make_serializable_state(game_state)
     with open(filepath, "w", encoding="utf-8") as f:

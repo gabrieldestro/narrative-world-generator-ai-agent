@@ -1,5 +1,6 @@
 import os
 import json
+import uuid
 
 WORLDS_DIR = "worlds"
 
@@ -22,5 +23,8 @@ def load_world(filename):
 
     with open(filepath, "r", encoding="utf-8") as f:
         game_state = json.load(f)
+
+    # set an id for this simulation
+    game_state["simulation_id"] = uuid.uuid4()
 
     return game_state

@@ -7,5 +7,4 @@ class NPCState(TypedDict):
     description: str
     goals: List[str]
     current_location: str
-    memory: List[str]
     status: str

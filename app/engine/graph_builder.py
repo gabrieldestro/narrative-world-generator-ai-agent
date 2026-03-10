@@ -1,5 +1,6 @@
 from app.config import SIMULATION_TYPE
 from app.consts import COMPLETE_SIMULATION, LITE_SIMULATION
+from app.tools import change_npc_status
 from app.tools.add_item import add_item
 from app.tools.complete_quest import complete_quest
 from app.tools.create_location import create_location
@@ -83,6 +84,7 @@ def build_tools(state):
         tool_executor.register("create_location", create_location)
         tool_executor.register("create_npc", create_npc)
         tool_executor.register("move_npc", move_npc)
+        tool_executor.register("change_npc_status", change_npc_status)
         tool_executor.register("move_player", move_player)
         tool_executor.register("add_item", add_item)
         tool_executor.register("remove_item", remove_item)
