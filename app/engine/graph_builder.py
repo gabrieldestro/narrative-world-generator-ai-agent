@@ -1,7 +1,7 @@
 from app.config import SIMULATION_TYPE
 from app.consts import COMPLETE_SIMULATION, LITE_SIMULATION
-from app.tools import change_npc_status
 from app.tools.add_item import add_item
+from app.tools.change_npc_status import change_npc_status
 from app.tools.complete_quest import complete_quest
 from app.tools.create_location import create_location
 from app.tools.create_npc import create_npc
