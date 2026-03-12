@@ -1,8 +1,9 @@
+from app.logging.state_logger import log
 from app.model.game_state import GameState
 
 
 def move_player(state: GameState, to_location: str):
-    print(f"calling move_player {to_location}")
+    log("tools", f"calling move_player {to_location}")
 
     destination = to_location
     current = state["player_state"]["current_location"]
@@ -14,5 +15,5 @@ def move_player(state: GameState, to_location: str):
 
     state["player_state"]["current_location"] = destination
 
-    print(f"Jogador moveu-se de {current} para {destination}!")
+    log("tools", f"Jogador moveu-se de {current} para {destination}!")
     return f"Jogador moveu-se para {destination}"

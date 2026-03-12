@@ -23,7 +23,8 @@ class GameState(TypedDict):
     turn_number: int
 
     # simulation engine properties
-    simulation_id: uuid.UUID
+    simulation_id: str
+    history: str
     pending_tool_calls: Optional[List[dict]]
     last_llm_message: Optional[str]
     tool_executor: ToolExecutor

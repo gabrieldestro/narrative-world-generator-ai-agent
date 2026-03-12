@@ -1,5 +1,6 @@
 from app.config import SIMULATION_TYPE
 from app.consts import COMPLETE_SIMULATION, LITE_SIMULATION
+from app.engine.node.simulation_phase_lite import simulation_phase_lite
 from app.tools.add_item import add_item
 from app.tools.add_world_fact import add_world_fact
 from app.tools.change_npc_status import change_npc_status
@@ -13,13 +14,11 @@ from app.tools.remove_world_fact import remove_world_fact
 from app.tools.tool_executor import ToolExecutor
 from app.tools.update_world_fact import update_world_fact
 from langgraph.graph import END, StateGraph
-from app.engine.tools_phase import tools_phase
 from app.model.game_state import GameState
-
-from app.engine.player_phase import player_phase
-from app.engine.npc_phase import npc_phase
-from app.engine.world_phase import world_phase
-from app.engine.summary_phase import summary_phase
+from app.engine.node.tools_phase import tools_phase
+from app.engine.node.simulation_phase import simulation_phase
+from app.engine.node.world_phase import world_phase
+from app.engine.node.summary_phase import summary_phase
 
 def build_graph():
     if (SIMULATION_TYPE == LITE_SIMULATION):
@@ -39,20 +38,16 @@ def build_graph_complete():
 
     builder = StateGraph(GameState)
 
-    builder.add_node("player", player_phase)
-    builder.add_node("npc", npc_phase)
-    builder.add_node("world", world_phase)
+    builder.add_node("simulation", simulation_phase)
     builder.add_node("summary", summary_phase)
     builder.add_node("tools", tools_phase)
 
-    builder.set_entry_point("player")
+    builder.set_entry_point("simulation")
 
-    builder.add_edge("player", "npc")
-    builder.add_edge("npc", "world")
-    builder.add_edge("world", "summary")
+    builder.add_edge("simulation", "summary")
 
     builder.add_conditional_edges(
-        "world",
+        "simulation",
         should_run_tools,
         {
             "tools": "tools",
@@ -69,14 +64,12 @@ def build_graph_lite():
 
     builder = StateGraph(GameState)
 
-    builder.add_node("player", player_phase)
-    builder.add_node("npc", npc_phase)
+    builder.add_node("simulation", simulation_phase_lite)
     builder.add_node("summary", summary_phase)
 
-    builder.set_entry_point("player")
+    builder.set_entry_point("simulation")
 
-    builder.add_edge("player", "npc")
-    builder.add_edge("npc", "summary")
+    builder.add_edge("simulation", "summary")
 
     return builder.compile()
 

@@ -54,6 +54,7 @@ DEFAULT_WORLD = {
                 "status": "active"
             }
         },
+        "simulation_id": None,
         "turn_state": None,
         "scene_log": [],
         "turn_number": 1,

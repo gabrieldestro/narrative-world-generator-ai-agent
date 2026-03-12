@@ -1,5 +1,6 @@
 from app.engine.graph_builder import build_graph, build_tools
 from app.logging.state_logger import log_game_state
+from app.repository.story_repository import save_story
 from app.ui.print_terminal import *
 from app.repository.save_repository import *
 
@@ -15,6 +16,7 @@ def main():
     state = None
     if (choice == "1"):
         state = load_world_template()
+        state['simulation_id'] = str(uuid.uuid4())
         state = build_tools(state)
         state = graph.invoke(state)
 
@@ -36,6 +38,7 @@ def main():
             
             if (state["turn_state"]["player_choice_type"] == "save"):
                 save_game(state)
+                save_story(state)
                 continue
             
             state = graph.invoke(state)

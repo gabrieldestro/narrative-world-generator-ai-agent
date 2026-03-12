@@ -108,8 +108,8 @@ def load_world_template():
         return DEFAULT_WORLD
 
     print("Templates disponíveis:")
-    for i, save in enumerate(worlds):
-        print(f"{i + 1}. {save}")
+    for i, world in enumerate(worlds):
+        print(f"{i + 1}. {world}")
 
     choice = int(input("Escolha um template: ")) - 1
 

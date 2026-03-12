@@ -1,13 +1,5 @@
-import random
-from urllib import response
-from app.config import PROVIDER_NAME
-from app.consts import RANDOM_EVENT_CHANCE
 from app.llm import *
-from app.llm_providers.factory import get_llm_provider
-from app.model.game_state import GameState
 from app.tools.tools_schema import WORLD_TOOLS_SCHEMA
-from app.ui.print_terminal import print_world
-from app.logging.state_logger import log
 
 
 def world_phase(state):
