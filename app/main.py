@@ -1,3 +1,5 @@
+import traceback
+
 from app.engine.graph_builder import build_graph, build_tools
 from app.logging.state_logger import log_game_state
 from app.repository.story_repository import save_story
@@ -48,6 +50,7 @@ def main():
             state["turn_number"] += 1
         except Exception as e:
             print("An error occurred:", e)
+            traceback.print_exc()
 
 if __name__ == "__main__":
     main()

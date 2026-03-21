@@ -12,7 +12,7 @@ class GitHubProvider(BaseLLMProvider):
     def __init__(self):
         self.client = OpenAI(
             base_url=BASE_URL,
-            api_key=GITHUB_TOKEN
+            api_key=API_TOKEN
         )
         self.model = MODEL_NAME
 

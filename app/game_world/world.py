@@ -22,12 +22,14 @@ DEFAULT_WORLD = {
             ],
             "global_events": [],
             "locations": {
-                "taverna": {
+                "1": {
+                    "id": "1",
                     "name": "taverna",
                     "description": "Ambiente quente, cheiro de cerveja e madeira.",
                     "connected_to": ["praça"]
                 },
-                "praça": {
+                "2": {
+                    "id": "2",
                     "name": "praça",
                     "description": "Centro da vila com uma antiga fonte de pedra.",
                     "connected_to": ["taverna"]
@@ -54,6 +56,7 @@ DEFAULT_WORLD = {
                 "status": "active"
             }
         },
+        "history": "",
         "simulation_id": None,
         "turn_state": None,
         "scene_log": [],

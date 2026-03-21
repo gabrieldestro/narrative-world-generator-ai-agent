@@ -9,7 +9,7 @@ WORLD_TOOLS_SCHEMA = [
                 "properties": {
                     "to_location": {
                         "type": "string",
-                        "description": "Nome do local de destino"
+                        "description": "ID do local de destino"
                     }
                 },
                 "required": ["to_location"]
@@ -25,7 +25,7 @@ WORLD_TOOLS_SCHEMA = [
                 "type": "object",
                 "properties": {
                     "npc_id": {"type": "string"},
-                    "to_location": {"type": "string"}
+                    "to_location": {"type": "string", "description": "ID do local de destino"}
                 },
                 "required": ["npc_id", "to_location"]
             }
@@ -103,6 +103,7 @@ WORLD_TOOLS_SCHEMA = [
             "parameters": {
                 "type": "object",
                 "properties": {
+                    "id": {"type": "string"},
                     "name": {"type": "string"},
                     "description": {"type": "string"},
                     "connected_to": {
@@ -110,7 +111,7 @@ WORLD_TOOLS_SCHEMA = [
                         "items": {"type": "string"}
                     }
                 },
-                "required": ["name", "description", "connected_to"]
+                "required": ["id", "name", "description", "connected_to"]
             }
         }
     },
