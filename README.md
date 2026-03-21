@@ -1,9 +1,99 @@
-Próximos passos:
-    - A parte de salvar a história ainda tem alguns problemas no caso de branchs
-    - Refatorar o código dos nós
-    - Fazer uma interface gráfica que se comunica com a aplicação via api.
-    - Permitir que o estado mundo seja alterado atravé de tools (lista de fatos que podem ser modificados).
-    - Refatorar para usar diretamente as propriedades do game state, ao invés do estilo de dicionário.
+# AI Narrative Simulator
 
-Para executar:
-    Na pasta raiz, executar python -m app.main
+## Introdução
+
+Este projeto é um simulador narrativo baseado em IA, desenvolvido em Python, que permite a criação de histórias dinâmicas a partir de interações do usuário.
+
+A aplicação funciona via console (CLI), onde o usuário insere ações e a IA responde, evoluindo a narrativa em tempo real.
+
+Atualmente, o sistema suporta dois tipos de provedores de linguagem:
+
+* OpenAI (modelos remotos)
+* Modelos locais via LM Studio
+
+## Setup
+
+### 1. Criar arquivo .env
+
+Crie um arquivo chamado `.env` na raiz do projeto com as seguintes variáveis:
+
+LLM_MODEL=""
+PROVIDER_NAME=""
+BASE_URL=""
+TOKEN=""
+SIMULATION_TYPE=1
+DEBUG=0
+
+#### Explicação das variáveis:
+
+LLM_MODEL
+Nome do modelo de linguagem que será utilizado (ex: gpt-4, mistral, etc).
+
+PROVIDER_NAME
+Define o tipo de provedor:
+
+* "openai" → usa API externa
+* "local" → usa modelo local via LM Studio
+
+BASE_URL
+URL do provedor da API.
+Pode ser deixado em branco se estiver usando LM Studio (local).
+Exemplo para OpenAI: https://api.openai.com/v1
+
+TOKEN
+Token de autenticação da API (necessário para provedores externos como OpenAI).
+
+SIMULATION_TYPE
+Define o tipo de simulação:
+
+* 0 → LITE (simulação simplificada)
+* 1 → Completa (suporta mudanças de estado via ferramentas)
+
+DEBUG
+Ativa logs detalhados:
+
+* 0 → desativado
+* 1 → ativado (output mais verboso para debugging)
+
+### 2. Criar ambiente virtual
+
+python -m venv venv
+
+Ativar o ambiente:
+
+Windows:
+venv\Scripts\activate
+
+Linux/Mac:
+source venv/bin/activate
+
+### 3. Instalar dependências
+
+pip install -r requirements.txt
+
+### 4. Executar a aplicação
+
+Na raiz do projeto, execute:
+
+python -m app.main
+
+## Como funciona
+
+O usuário interage com o sistema via console.
+Cada entrada representa uma ação do jogador.
+A IA processa essa ação e retorna uma continuação da narrativa.
+O estado da história é mantido internamente e pode evoluir com base nas decisões.
+
+No modo completo, o sistema também permite:
+
+* Alterações estruturais no mundo (via ferramentas)
+* Evolução mais complexa da narrativa
+
+## Próximos passos
+
+* Criar uma interface gráfica (GUI) que se comunique com a aplicação via API
+* Melhorar o sistema de logs da narrativa, especialmente para suportar:
+
+  * Branches da história
+  * Manipulação de save states
+  * Histórico de decisões
