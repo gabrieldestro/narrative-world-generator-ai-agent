@@ -7,7 +7,7 @@ DEFAULT_WORLD = {
         "additional_info": "Nenhuma",
         "player_state": {
             "name": "Stranger",
-            "current_location": "praça",
+            "current_location": "2",
             "description": "Um aventureiro de olhos castanhos e cabelos castanhos.",
             "inventory": []
         },

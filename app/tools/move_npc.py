@@ -1,27 +1,36 @@
 from app.logging.state_logger import log
 from app.model.game_state import GameState
+import traceback
 
 
 def move_npc(state: GameState, npc_id: str, to_location: str):
-    log("tools", f"calling move_npc {npc_id} {to_location}")
+    destination = ""
+    message = ""
 
-    destination = to_location
+    try:
+        log("tools", f"calling move_npc {npc_id} {to_location}")
 
-    npc = state["npcs"].get(npc_id)
+        destination = to_location
 
-    if not npc:
-        log("tools", f"NPC {npc_id} não existe")
-        return f"NPC {npc_id} não existe"
+        npc = state["npcs"].get(npc_id)
 
-    current = npc["current_location"]
+        if not npc:
+            log("tools", f"NPC {npc_id} não existe")
+            return f"NPC {npc_id} não existe"
 
-    location = state["world"]["locations"][current]
+        current = npc["current_location"]
 
-    if destination not in location["connected_to"]:
-        log("tools", f"{npc['name']} não pode ir para {destination}")
-        return f"{npc['name']} não pode ir para {destination}"
+        location = state["world"]["locations"][current]
 
-    npc["current_location"] = destination
+        if destination not in location["connected_to"]:
+            log("tools", f"{npc['name']} não pode ir para {destination}")
+            return f"{npc['name']} não pode ir para {destination}"
 
-    log("tools", f"{npc['name']} moveu-se para {destination}")
-    return f"{npc['name']} moveu-se para {destination}"
+        npc["current_location"] = destination
+
+        log("tools", f"{npc['name']} moveu-se para {destination}")
+        message = f"{npc['name']} moveu-se para {destination}"
+    except:
+        traceback.print_exc()
+
+    return message

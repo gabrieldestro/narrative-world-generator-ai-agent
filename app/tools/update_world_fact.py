@@ -1,17 +1,24 @@
 from app.model.game_state import GameState
 from app.logging.state_logger import log
+import traceback
 
 def update_world_fact(state: GameState, index: int, fact: str):
-    log("tools", f"calling update_world_fact {index}")
+    old = ""
 
-    facts = state["world"]["world_prompt"]
+    try:
+        log("tools", f"calling update_world_fact {index}")
 
-    if index < 0 or index >= len(facts):
-        log("tools", "Índice inválido")
-        return "Índice inválido"
+        facts = state["world"]["world_prompt"]
 
-    old = facts[index]
-    facts[index] = fact
+        if index < 0 or index >= len(facts):
+            log("tools", "Índice inválido")
+            return "Índice inválido"
 
-    log("tools", f"Fato atualizado: '{old}' -> '{fact}'")
+        old = facts[index]
+        facts[index] = fact
+
+        log("tools", f"Fato atualizado: '{old}' -> '{fact}'")
+    except:
+        traceback.print_exc()
+        
     return f"Fato atualizado: '{old}' -> '{fact}'"

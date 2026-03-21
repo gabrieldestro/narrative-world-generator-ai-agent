@@ -1,19 +1,26 @@
 from app.logging.state_logger import log
 from app.model.game_state import GameState
+import traceback
 
 
 def move_player(state: GameState, to_location: str):
-    log("tools", f"calling move_player {to_location}")
+    destination = ""
 
-    destination = to_location
-    current = state["player_state"]["current_location"]
+    try:
+        log("tools", f"calling move_player {to_location}")
 
-    location = state["world"]["locations"][current]
+        destination = to_location
+        current = state["player_state"]["current_location"]
 
-    if destination not in location["connected_to"]:
-        return f"O jogador não pode ir para {destination}"
+        location = state["world"]["locations"][current]
 
-    state["player_state"]["current_location"] = destination
+        if destination not in location["connected_to"]:
+            return f"O jogador não pode ir para {destination}"
 
-    log("tools", f"Jogador moveu-se de {current} para {destination}!")
+        state["player_state"]["current_location"] = destination
+
+        log("tools", f"Jogador moveu-se de {current} para {destination}!")
+    except:
+        traceback.print_exc()
+
     return f"Jogador moveu-se para {destination}"

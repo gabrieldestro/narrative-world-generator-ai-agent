@@ -15,7 +15,7 @@ Atualmente, o sistema suporta dois tipos de provedores de linguagem:
 
 ### 1. Criar arquivo .env
 
-Crie um arquivo chamado `.env` na raiz do projeto com as seguintes variáveis:
+Crie um arquivo chamado `.env` na pasta app com as seguintes variáveis:
 
 LLM_MODEL=""
 PROVIDER_NAME=""
