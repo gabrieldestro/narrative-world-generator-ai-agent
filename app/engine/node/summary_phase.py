@@ -5,8 +5,9 @@ from app.config import DEBUG
 from app.consts import SCENE_LOG_MEMORY
 
 def summary_phase(state):
-
     if (len(state['scene_log']) >= SCENE_LOG_MEMORY):
+        history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
+
         system_prompt = f"""
             Você é o narrador de um mundo Sandbox seu objetivo é resumir os principais acontecimentos até agora
             baseado em um log de eventos de modo que a história possa continuar a partir deste resumo.
@@ -19,7 +20,7 @@ def summary_phase(state):
             """
 
         user_prompt = f"""
-            {state['scene_log']}
+            {history}
             """
 
         response = call_llm(system_prompt, user_prompt, "1")

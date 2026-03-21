@@ -1,3 +1,5 @@
+from app.config import SIMULATION_TYPE
+from app.consts import LITE_SIMULATION
 from app.game_world.world import initialize_world
 from app.engine.graph_builder import build_graph
 from app.logging.state_logger import log_game_state, log
@@ -20,10 +22,7 @@ def ask_player_choice(state):
     elif choice == "2":
         state = choose_speak(state)
 
-    elif choice == "3":
-        state = choose_move(state)
-
-    elif choice == "5":
+    elif choice == "4":
         state = choose_save(state)
 
     else:
@@ -109,8 +108,8 @@ def load_world_template():
         return DEFAULT_WORLD
 
     print("Templates disponíveis:")
-    for i, save in enumerate(worlds):
-        print(f"{i + 1}. {save}")
+    for i, world in enumerate(worlds):
+        print(f"{i + 1}. {world}")
 
     choice = int(input("Escolha um template: ")) - 1
 
@@ -144,9 +143,8 @@ def print_player_options(state):
     print("Local:", state["player_state"]["current_location"])
     print("\n1 - Agir")
     print("2 - Falar")
-    print("3 - Mover")
-    print("4 - Continuar")
-    print("5 - Salvar narrativa")
+    print("3 - Continuar")
+    print("4 - Salvar narrativa")
     print("0 - Sair")
 
 def print_init_options():
@@ -154,3 +152,13 @@ def print_init_options():
     print("\n1 - Nova narrativa")
     print("2 - Carregar")
     print("0 - Sair")
+
+def print_simulation_mode():
+    print(SIMULATION_TYPE)
+    
+    if (SIMULATION_TYPE == LITE_SIMULATION):
+        sim_mode = "LITE"
+    else:
+        sim_mode = "COMPLETE"
+
+    print(f"SIMULATION MODE: {sim_mode}")

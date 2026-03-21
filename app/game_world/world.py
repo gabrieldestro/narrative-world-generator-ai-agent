@@ -8,16 +8,18 @@ DEFAULT_WORLD = {
         "player_state": {
             "name": "Stranger",
             "current_location": "praça",
-            "description": "Um aventureiro de olhos castanhos e cabelos castanhos."
+            "description": "Um aventureiro de olhos castanhos e cabelos castanhos.",
+            "inventory": []
         },
         "genres": ["aventura", "ação"],
+        "quests": {},
         "world": {
-            "world_prompt": """
-            Vila medieval chamada Dunmar.
-            Tensões políticas silenciosas.
-            Rumores sobre criaturas na floresta.
-            Uma ordem secreta atua nas sombras.
-            """,
+            "world_prompt": [
+                "Vila medieval chamada Dunmar.",
+                "Tensões políticas silenciosas.",
+                "Rumores sobre criaturas na floresta.",
+                "Uma ordem secreta atua nas sombras."
+            ],
             "global_events": [],
             "locations": {
                 "taverna": {
@@ -52,9 +54,11 @@ DEFAULT_WORLD = {
                 "status": "active"
             }
         },
+        "simulation_id": None,
         "turn_state": None,
         "scene_log": [],
-        "turn_number": 1
+        "turn_number": 1,
+        "tool_executor": None
     }
 
 def initialize_world() -> GameState:

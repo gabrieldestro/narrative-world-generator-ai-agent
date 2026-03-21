@@ -5,3 +5,4 @@ class PlayerState(TypedDict):
     name: str
     description: str
     current_location: str
+    inventory: List[str]

@@ -1,4 +1,5 @@
 import time
+from app.config import DEBUG
 from rich.console import Console
 from rich.live import Live
 from rich.panel import Panel
@@ -32,6 +33,9 @@ def get_npc_color(npc_name: str):
 
 def stream_panel(title: str, full_text: str, style: str):
     displayed_text = Text()
+    if (DEBUG):
+        print(full_text)
+        return 
     
     with Live(refresh_per_second=60, console=console) as live:
         for char in full_text:
