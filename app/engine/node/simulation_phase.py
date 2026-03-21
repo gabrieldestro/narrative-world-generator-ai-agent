@@ -1,5 +1,7 @@
 from app.engine.context.inventory_context import get_inventory_context
+from app.engine.context.lcocations_context import get_locations_context
 from app.engine.context.npc_context import get_npc_context
+from app.engine.context.quests_context import get_quests_context
 from app.engine.context.world_context import get_world_context
 from app.llm import call_llm, call_llm_with_tools
 from app.model.game_state import GameState
@@ -16,57 +18,6 @@ def simulation_phase(state: GameState):
 
     if turn:
         player_action = turn["player_content"]
-
-    # -------- WORLD CONTEXT --------
-
-    world_context = ""
-    for i, line in enumerate(state["world"]["world_prompt"]):
-        world_context += f"{i}: {line}\n"
-
-    # -------- NPC CONTEXT --------
-
-    npcs = [
-        npc for npc in state["npcs"].values()
-        if npc["status"] == "active"
-    ]
-
-    npc_context = ""
-    for npc in npcs:
-        npc_context += f"""
-            ID: {npc['id']}
-            Nome: {npc['name']}
-            Descrição: {npc['description']}
-            Objetivos: {", ".join(npc['goals'])}
-            Local: {npc['current_location']}
-            """
-
-    # -------- LOCATIONS --------
-
-    locations_context = ""
-    for location in state["world"]["locations"].values():
-        locations_context += f"""
-            ID: {location['id']}
-            Nome: {location['name']}\n
-            Descrição: {location['description']}\n
-            Locais conectados: {", ".join(location['connected_to'])}
-    """
-
-    # -------- QUESTS --------
-
-    quests_context = ""
-    for quest in state["quests"].values():
-        if quest["status"] == "active":
-            quests_context += f"""
-                ID: {quest['id']}
-                Nome: {quest['name']}
-                Descrição: {quest['description']}
-                """
-
-    # -------- HISTORY --------
-
-    history = "\n".join(state["scene_log"][-SCENE_LOG_MEMORY:])
-
-    # -------- PROMPTS --------
 
     system_prompt = f"""
         Você é o narrador de um mundo sandbox.
@@ -97,25 +48,25 @@ def simulation_phase(state: GameState):
         {state['player_state']['description']}
 
         Inventário:
-        {", ".join(state['player_state']["inventory"])}
+        {get_inventory_context(state)}
 
         Local atual:
         {state['player_state']['current_location']}
 
         Locais:
-        {locations_context}
+        {get_locations_context(state)}
 
         NPCs:
-        {npc_context}
+        {get_npc_context(state)}
 
         Quests:
-        {quests_context}
+        {get_quests_context(state)}
 
         Estado do mundo:
-        {world_context}
+        {get_world_context(state)}
 
         Histórico recente:
-        {history}
+        {"\n".join(state["scene_log"][-SCENE_LOG_MEMORY:])}
         """
 
     user_prompt = f"""

@@ -7,7 +7,7 @@ from app.config import *
 from app.llm_providers.base import BaseLLMProvider, LLMResponse
 
 
-class GitHubProvider(BaseLLMProvider):
+class OpenAiProvider(BaseLLMProvider):
 
     def __init__(self):
         self.client = OpenAI(

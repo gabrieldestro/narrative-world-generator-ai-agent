@@ -15,6 +15,7 @@ def get_npc_context(state: GameState):
     npc_context = ""
     for npc in npcs_here:
         npc_context += f"""
+        ID: {npc['id']}
         Nome: {npc['name']}
         Descrição: {npc['description']}
         Objetivos: {", ".join(npc['goals'])}
