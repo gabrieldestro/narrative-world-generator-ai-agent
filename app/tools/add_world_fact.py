@@ -10,6 +10,7 @@ def add_world_fact(state: GameState, fact: str):
 
         state["world"]["world_prompt"].append(fact)
 
+        print(f"Novo fato adicionado ao mundo: {fact}")
         log("tools", f"Novo fato adicionado ao mundo: {fact}")
     except:
         traceback.print_exc()

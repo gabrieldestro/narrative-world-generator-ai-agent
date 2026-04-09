@@ -12,6 +12,7 @@ def tools_phase(state: GameState) -> Dict[str, Any]:
     if not tool_calls:
         return {}
     
+    print("Usando ferramentas")
     log_game_state(state)
     executor = state["tool_executor"]
 

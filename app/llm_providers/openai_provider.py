@@ -26,6 +26,7 @@ class OpenAiProvider(BaseLLMProvider):
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
+            temperature=TEMPERATURE
         )
 
         latency = time.time() - start

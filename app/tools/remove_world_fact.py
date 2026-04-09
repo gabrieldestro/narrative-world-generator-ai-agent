@@ -17,6 +17,7 @@ def remove_world_fact(state: GameState, index: int):
         removed = facts.pop(index)
 
         log("tools", f"Fato removido: {removed}")
+        print(f"Fato removido: {removed}")
     except:
         traceback.print_exc()
 

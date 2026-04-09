@@ -18,6 +18,7 @@ def update_world_fact(state: GameState, index: int, fact: str):
         facts[index] = fact
 
         log("tools", f"Fato atualizado: '{old}' -> '{fact}'")
+        print(f"Fato atualizado: '{old}' -> '{fact}'")
     except:
         traceback.print_exc()
         

@@ -30,6 +30,7 @@ def move_npc(state: GameState, npc_id: str, to_location: str):
 
         log("tools", f"{npc['name']} moveu-se para {destination}")
         message = f"{npc['name']} moveu-se para {destination}"
+        print(message)
     except:
         traceback.print_exc()
 

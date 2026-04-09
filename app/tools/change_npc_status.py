@@ -20,6 +20,7 @@ def change_npc_status(state: GameState, npc_id: str, status: str):
         
         log("tools", f"{npc['name']} mudou de status {old_status} para {status}")
         message = f"{npc['name']} mudou de status {old_status} para {status}"
+        print(message)
     except:
         traceback.print_exc()
 

@@ -18,6 +18,7 @@ def complete_quest(state: GameState, quest_id: str):
 
         log("tools", f"Quest {quest['name']} foi completada")
         message = f"Quest {quest['name']} foi completada"
+        print(message)
     except:
         traceback.print_exc()
 

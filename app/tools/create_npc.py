@@ -31,6 +31,7 @@ def create_npc(
         }
 
         log("tools", f"NPC criado!")
+        print(f"NPC criado: {id} {name} {description} {goals} {current_location} {status}")
     except:
         traceback.print_exc()
     

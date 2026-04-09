@@ -18,6 +18,7 @@ def create_location(state: GameState, id: str, name: str, description: str, conn
         }
 
         log("tools", "Location criada!")
+        print(f"Localização criada: {id} {name} {connected_to}")
     except:
         traceback.print_exc()
 

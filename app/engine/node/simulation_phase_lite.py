@@ -36,6 +36,12 @@ def simulation_phase_lite(state):
 def _get_system_prompt(state: GameState):
     location = state["player_state"]["current_location"]
     history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
+    
+    narrative_description = ""
+    if (state["turn_number"] == 1): 
+        narrative_description = "Faça uma descrição do cenário e dos personagens." 
+    else:
+        narrative_description = "Não descreva o cenário ou as características físicas dos personagens a mesmo que seja uma informação nova ou relevante."
 
     world_context = get_world_context(state)
     npc_context = get_npc_context(state)
@@ -45,12 +51,12 @@ def _get_system_prompt(state: GameState):
     Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
     Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador.
     Trate o jogador pela descrição de seu personagem e nunca pelo termo 'Jogador'. Não de sugestões sobre o que o jogador pode fazer.
+    {narrative_description}
     
+    {state['additional_info']}
+
     Gêneros da história: 
     {", ".join(state['genres'])}
-
-    Informações adicionais:
-    {state['additional_info']}
 
     jogador:
     {state['player_state']['name']}

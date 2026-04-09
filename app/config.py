@@ -9,6 +9,7 @@ load_dotenv()
 '''
 SIMULATION_TYPE = os.getenv("SIMULATION_TYPE")
 DEBUG = os.getenv("DEBUG") == "1"
+TEMPERATURE = float(os.getenv("TEMPERATURE")) if os.getenv("TEMPERATURE") else 0.7
 
 PROVIDER_NAME = os.getenv("PROVIDER_NAME")
 if not PROVIDER_NAME:

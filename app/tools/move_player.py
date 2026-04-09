@@ -20,6 +20,7 @@ def move_player(state: GameState, to_location: str):
         state["player_state"]["current_location"] = destination
 
         log("tools", f"Jogador moveu-se de {current} para {destination}!")
+        print(f"Jogador moveu-se de {current} para {destination}!")
     except:
         traceback.print_exc()
 

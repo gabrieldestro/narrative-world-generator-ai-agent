@@ -19,6 +19,12 @@ def simulation_phase(state: GameState):
     if turn:
         player_action = turn["player_content"]
 
+    narrative_description = ""
+    if (state["turn_number"] == 1): 
+        narrative_description = "Faça uma descrição do cenário e dos personagens." 
+    else:
+        narrative_description = "Não descreva o cenário ou as características físicas dos personagens a mesmo que seja uma informação nova ou relevante."
+
     system_prompt = f"""
         Você é o narrador de um mundo sandbox.
 
@@ -37,11 +43,11 @@ def simulation_phase(state: GameState):
         Narrativa sozinha NÃO altera o estado do mundo.
         ---
 
+        {narrative_description}
+        {state['additional_info']}
+
         Gêneros:
         {", ".join(state['genres'])}
-
-        Informações adicionais:
-        {state['additional_info']}
 
         Jogador:
         {state['player_state']['name']}
