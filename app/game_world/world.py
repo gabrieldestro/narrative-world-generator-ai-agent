@@ -9,7 +9,8 @@ DEFAULT_WORLD = {
             "name": "Stranger",
             "current_location": "2",
             "description": "Um aventureiro de olhos castanhos e cabelos castanhos.",
-            "inventory": []
+            "inventory": [],
+            "objective": "Explorar o mundo"
         },
         "genres": ["aventura", "ação"],
         "quests": {},

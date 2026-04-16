@@ -5,4 +5,5 @@ class PlayerState(TypedDict):
     name: str
     description: str
     current_location: str
+    objective: str # used only in auto play
     inventory: List[str]

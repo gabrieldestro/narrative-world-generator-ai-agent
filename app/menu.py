@@ -1,4 +1,4 @@
-from app.config import SIMULATION_TYPE
+from app.config import AUTO_PLAY, SIMULATION_TYPE
 from app.consts import LITE_SIMULATION
 from app.game_world.world import initialize_world
 from app.engine.graph_builder import build_graph

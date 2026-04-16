@@ -33,15 +33,21 @@ def main():
 
     while True:
         try:
-            state = ask_player_choice(state)
-            if (state["turn_state"]["player_choice_type"] == "finish"):
-                print("Encerrando simulação")
-                return
-            
-            if (state["turn_state"]["player_choice_type"] == "save"):
+            if (AUTO_PLAY):
                 save_game(state)
-                save_story(state)
-                continue
+                save_story(state)        
+                print(f"The simulation is in spectator mode. The simulation will save automatically. To quit, press CTLR+C.")
+
+            else:
+                state = ask_player_choice(state)
+                if (state["turn_state"]["player_choice_type"] == "finish"):
+                    print("Encerrando simulação")
+                    return
+                
+                if (state["turn_state"]["player_choice_type"] == "save"):
+                    save_game(state)
+                    save_story(state)
+                    continue
             
             state = graph.invoke(state)
             log_game_state(state)
@@ -54,3 +60,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

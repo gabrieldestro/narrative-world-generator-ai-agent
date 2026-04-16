@@ -1,5 +1,6 @@
-from app.config import SIMULATION_TYPE
+from app.config import SIMULATION_TYPE, AUTO_PLAY
 from app.consts import COMPLETE_SIMULATION, LITE_SIMULATION
+from app.engine.node.auto_play_phase import auto_play_phase
 from app.engine.node.simulation_phase_lite import simulation_phase_lite
 from app.tools.add_item import add_item
 from app.tools.add_world_fact import add_world_fact
@@ -42,7 +43,13 @@ def build_graph_complete():
     builder.add_node("summary", summary_phase)
     builder.add_node("tools", tools_phase)
 
-    builder.set_entry_point("simulation")
+    if (AUTO_PLAY):
+        builder.add_node("player", auto_play_phase)
+        builder.add_edge("player", "simulation")
+
+        builder.set_entry_point("player")
+    else:
+        builder.set_entry_point("simulation")
 
     builder.add_edge("simulation", "summary")
 
@@ -67,7 +74,13 @@ def build_graph_lite():
     builder.add_node("simulation", simulation_phase_lite)
     builder.add_node("summary", summary_phase)
 
-    builder.set_entry_point("simulation")
+    if (AUTO_PLAY):
+        builder.add_node("player", auto_play_phase)
+        builder.add_edge("player", "simulation")
+
+        builder.set_entry_point("player")
+    else:
+        builder.set_entry_point("simulation")
 
     builder.add_edge("simulation", "summary")
 
