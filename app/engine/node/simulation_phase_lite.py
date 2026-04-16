@@ -49,7 +49,8 @@ def _get_system_prompt(state: GameState):
 
     system_prompt = f"""
     Você é o narrador de um mundo Sandbox, nunca interaja com o jogador fora do contexto da história. 
-    Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador.
+    Simule o comportamento e diálogo dos personagens conforme suas características e as interações com o jogador. Descreva a ação do jogador antes de continuar com a reação dos NPCs.
+    Sempre seja direto ao avançar a narrativa. Se um personagem for questionado algo ou solicitado que ele faça algo, resolva isso na mesma resposta. Seja direto, NÃO ENROLE.
     Trate o jogador pela descrição de seu personagem e nunca pelo termo 'Jogador'. Não de sugestões sobre o que o jogador pode fazer.
     {narrative_description}
     

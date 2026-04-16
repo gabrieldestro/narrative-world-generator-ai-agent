@@ -27,8 +27,9 @@ def simulation_phase(state: GameState):
 
     system_prompt = f"""
         Você é o narrador de um mundo sandbox.
+        Não de sugestões do que o jogador deve fazer, nem faça perguntas, nunca saia do papel do narrador.
 
-        Simule a cena atual considerando o estado do mundo, NPCs e ação do jogador.
+        Simule a cena atual considerando o estado do mundo, NPCs e ação do jogador, descreva a ação do jogador antes de continuar com a reação dos NPCs.
 
         NPCs podem:
         - falar
