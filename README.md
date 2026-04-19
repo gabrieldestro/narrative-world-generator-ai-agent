@@ -73,9 +73,15 @@ pip install -r requirements.txt
 
 ### 4. Executar a aplicação
 
-Na raiz do projeto, execute:
+O projeto possui dois módulos independentes operando na linha de comando:
 
-python -m app.main
+#### 4.1. Simulador Narrativo (Turn-based RPG)
+Para interagir turno a turno manipulando as ações da história:
+`python -m app.main`
+
+#### 4.2. Gerador Automático de História Completa
+Para usar o pipeline focado em compilar um framework/mundo em uma história literária completa (capitulada de forma ininterrupta ou persistida):
+`python -m app.main_story`
 
 ## Como funciona
 
