@@ -2,6 +2,7 @@ import json
 import re
 from app.model.story_state import StoryState
 from app.llm import call_llm
+from app.config import AUTO_PLAY
 
 SYSTEM_PROMPT = """Você é um estruturador de capítulos.
 Dado o outline de uma história e as informações do mundo, sua tarefa é dividir a narrativa em uma lista estruturada de capítulos.
@@ -34,20 +35,48 @@ def chapter_split_node(state: StoryState) -> StoryState:
     story_outline = state.get("story_outline", "")
     additional_info = state.get("additional_info", "")
     
-    user_prompt = f"Outline da História:\n{story_outline}\n\n"
+    base_user_prompt = f"Outline da História:\n{story_outline}\n\n"
     
     if additional_info:
-        user_prompt += f"Considere estas diretrizes do usuário ao decidir a quantidade de capítulos:\n{additional_info}\n\n"
+        base_user_prompt += f"Considere estas diretrizes do usuário ao decidir a quantidade de capítulos:\n{additional_info}\n\n"
         
-    user_prompt += "Retorne o JSON listando os capítulos."
+    base_user_prompt += "Retorne o JSON listando os capítulos."
 
     turn_id = f"{state.get('simulation_id')}_split"
     
     response = call_llm(
         system_prompt=SYSTEM_PROMPT,
-        user_prompt=user_prompt,
+        user_prompt=base_user_prompt,
         turn_id=turn_id
     )
+    
+    if not AUTO_PLAY:
+        attempt = 1
+        while True:
+            try:
+                parsed_chapters = extract_json(response)
+                formatted_response = json.dumps(parsed_chapters, indent=2, ensure_ascii=False)
+            except Exception:
+                formatted_response = response + "\n[Aviso: O texto gerado não é um JSON válido. Requer regeração.]"
+
+            print("\n=== REVISÃO DE CAPÍTULOS ===")
+            print(formatted_response)
+            print("============================\n")
+            print("Pressione [ENTER] para aprovar, ou digite um feedback para o assistente refazer a divisão:")
+            feedback = input("> ").strip()
+            
+            if not feedback:
+                break
+                
+            print("\nRegerando com feedback...")
+            attempt += 1
+            user_prompt_feedback = f"{base_user_prompt}\n\nAtenção, o usuário repassou o seguinte feedback sobre a sua primeira sugestão:\n{feedback}\nPor favor, retorne o JSON novamente aplicando as mudanças."
+            
+            response = call_llm(
+                system_prompt=SYSTEM_PROMPT,
+                user_prompt=user_prompt_feedback,
+                turn_id=f"{turn_id}_retry_{attempt}"
+            )
     
     try:
         chapters = extract_json(response)

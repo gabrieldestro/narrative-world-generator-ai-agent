@@ -10,6 +10,7 @@ load_dotenv()
 SIMULATION_TYPE = os.getenv("SIMULATION_TYPE")
 DEBUG = os.getenv("DEBUG") == "1"
 AUTO_PLAY = os.getenv("AUTO_PLAY") == "1"
+STORY_CHAPTER_PARTS = int(os.getenv("STORY_CHAPTER_PARTS", "3"))
 
 TEMPERATURE = float(os.getenv("TEMPERATURE")) if os.getenv("TEMPERATURE") else 0.7
 
