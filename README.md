@@ -23,6 +23,9 @@ BASE_URL=""
 TOKEN=""
 SIMULATION_TYPE=1
 DEBUG=0
+AUTO_PLAY=0
+STORY_CHAPTER_PARTS=3
+TEMPERATURE=1
 
 #### Explicação das variáveis:
 
@@ -33,15 +36,15 @@ PROVIDER_NAME
 Define o tipo de provedor:
 
 * "openai" → usa API externa
-* "local" → usa modelo local via LM Studio
+* "local" → usa modelo local via LM Studio ou inferência local
 
 BASE_URL
 URL do provedor da API.
-Pode ser deixado em branco se estiver usando LM Studio (local).
-Exemplo para OpenAI: https://api.openai.com/v1
+Pode ser deixado em branco se estiver usando LM Studio local nativo.
+Exemplo para OpenAI ou inferência em nuvem: https://api.openai.com/v1
 
 TOKEN
-Token de autenticação da API (necessário para provedores externos como OpenAI).
+Token de autenticação da API (necessário para provedores externos).
 
 SIMULATION_TYPE
 Define o tipo de simulação:
@@ -54,6 +57,17 @@ Ativa logs detalhados:
 
 * 0 → desativado
 * 1 → ativado (output mais verboso para debugging)
+
+AUTO_PLAY
+Habilita o modo de simulação passivo/automático para demonstração ou auto-resolução.
+* 0 → desligado
+* 1 → ligado
+
+STORY_CHAPTER_PARTS
+Para o modo de Gerador de Histórias Longevas, define a quantidade de sub-eventos/turnos necessários até que um capítulo se encerre.
+
+TEMPERATURE
+Controla a criatividade da Inteligência Artificial. Valores mais altos (ex: 1) deixam o texto mais criativo; valores baixos (ex: 0.1) o tornam mais mecânico e previsível.
 
 ### 2. Criar ambiente virtual
 
@@ -73,33 +87,32 @@ pip install -r requirements.txt
 
 ### 4. Executar a aplicação
 
-O projeto possui dois módulos independentes operando na linha de comando:
+Você pode interagir com o gerador usando a Interface Gráfica (Streamlit) ou via Terminal (CLI clássico).
 
-#### 4.1. Simulador Narrativo (Turn-based RPG)
-Para interagir turno a turno manipulando as ações da história:
+#### 4.1. Interface Gráfica (Streamlit)
+Esta é a nova interface visual da aplicação, estruturada com um padrão `api_facade` preparando-a para futura evolução Web:
+`streamlit run gui/main_gui.py`
+
+*(O navegador abrirá automaticamente em `localhost:8501`)*
+
+#### 4.2. Terminal CLI Clássico (Simulador RPG)
+Para interagir em modo texto via prompt de comando:
 `python -m app.main`
 
-#### 4.2. Gerador Automático de História Completa
-Para usar o pipeline focado em compilar um framework/mundo em uma história literária completa (capitulada de forma ininterrupta ou persistida):
+#### 4.3. Terminal CLI (Gerador Automático de História)
+Para gerar contos passivos ininterruptos via CLI:
 `python -m app.main_story`
 
 ## Como funciona
 
-O usuário interage com o sistema via console.
-Cada entrada representa uma ação do jogador.
-A IA processa essa ação e retorna uma continuação da narrativa.
-O estado da história é mantido internamente e pode evoluir com base nas decisões.
+Na Interface Gráfica ou CLI, o usuário seleciona um Template de Mundo.
+A IA processa as decisões e invoca ferramentas no LangGraph.
 
-No modo completo, o sistema também permite:
+A nova arquitetura introduziu a pasta `app/services/` e `app/api_facade.py`, isolando completamente a lógica Core do modo de exibição, visando a migração futura para um Backend robusto.
 
-* Alterações estruturais no mundo (via ferramentas)
-* Evolução mais complexa da narrativa
+## Evolução Arquitetural (Próximos Passos)
 
-## Próximos passos
-
-* Criar uma interface gráfica (GUI) que se comunique com a aplicação via API
-* Melhorar o sistema de logs da narrativa, especialmente para suportar:
-
-  * Branches da história
-  * Manipulação de save states
-  * Histórico de decisões
+* Migrar o `api_facade.py` atual para um servidor REST usando **FastAPI**.
+* Empacotar a aplicação Backend em **Docker** para deploy facilitado.
+* Desenvolver um novo projeto de Frontend moderno usando **Angular** para substituir a prototipagem feita em Streamlit.
+* Ver o arquivo `FUTURE_ARCHITECTURE.md` para detalhes da próxima evolução do sistema.

@@ -3,9 +3,14 @@
 Se você é uma IA encarregada de manter ou estender a base deste projeto, deve tomar as presentes heurísticas como fonte de verdade para a gestão de código e arquitetura.
 
 ## Estrutura do Núcleo do Projeto
-O `narrative-world-generator-ai-agent` abriga um ecossistema bifurcado de geração em console, dividido sob o módulo genérico `app/`. Em suma:
-1. **Simulador de RPG em Turnos:** (`app/main.py`) Loop contínuo que usa ferramentas ("tools") via `ToolExecutor` para manipular um estado do mundo em resposta ao input criativo do jogador do turno atual.
-2. **Gerador de Histórias Longevas em Capítulos:** (`app/main_story.py`) Rede assíncrona focada unicamente na escrita passiva (ou controlada). Planeja a sinopse inteira através de `story_generator/graph_builder.py` sem usar formalmente tools de game-state, mas escrevendo iterativamente.
+O `narrative-world-generator-ai-agent` abriga um ecossistema bifurcado de geração, dividido sob o módulo genérico `app/`. Em suma:
+1. **Simulador de RPG em Turnos:** (`app/services/simulation_service.py`) Lógica para manipular um estado do mundo em resposta ao input criativo do jogador do turno atual.
+2. **Gerador de Histórias Longevas em Capítulos:** (`app/services/story_service.py`) Rede assíncrona focada unicamente na escrita passiva (ou controlada). Planeja a sinopse inteira através de `story_generator/graph_builder.py`.
+
+### A Nova Arquitetura Frontend/Backend (Facade e UI)
+Visando a evolução do projeto para uma aplicação Web (Angular Frontend + FastAPI Backend), a arquitetura foi dividida:
+- **`app/api_facade.py`**: Funciona como o controlador principal (simulando rotas de uma API REST). A interface **NUNCA** deve chamar a lógica interna diretamente, sempre passando pela Facade.
+- **`gui/`**: Contém a interface do usuário prototipada em **Streamlit**. O Streamlit consome a Facade. A interface deve manter o mínimo de estado possível, espelhando um front-end Web.
 
 ## Boas Práticas (Must-Have)
 
