@@ -18,6 +18,19 @@ def list_story_saves():
     saves = [f for f in files if f.startswith("story_gen_") and f.endswith(".json")]
     return saves
 
+def list_exported_stories():
+    ensure_dirs()
+    files = os.listdir(STORY_DIR)
+    stories = [f for f in files if f.endswith(".txt")]
+    return stories
+
+def get_exported_story(filename):
+    filepath = os.path.join(STORY_DIR, filename)
+    if not os.path.exists(filepath):
+        return None
+    with open(filepath, "r", encoding="utf-8") as f:
+        return f.read()
+
 def load_story_generation(save_filename) -> StoryState:
     filepath = os.path.join(SAVE_DIR, save_filename)
 

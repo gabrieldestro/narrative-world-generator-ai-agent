@@ -13,6 +13,7 @@ page = st.sidebar.radio("Navegação", [
     "Dashboard", 
     "Simulador Interativo", 
     "Gerador de Histórias", 
+    "Leitor de Narrativas",
     "Editor de Templates", 
     "Configurações"
 ])
@@ -30,6 +31,9 @@ with st.spinner(f"Carregando {page}..."):
         render()
     elif page == "Gerador de Histórias":
         from gui.views.story_gen import render
+        render()
+    elif page == "Leitor de Narrativas":
+        from gui.views.story_reader import render
         render()
     elif page == "Editor de Templates":
         from gui.views.template_editor import render

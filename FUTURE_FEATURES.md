@@ -4,9 +4,9 @@ Este documento atua como um backlog de melhorias que devem ser aplicadas à vers
 
 ### Backlog de Interface (UI) e Funcionalidades
 
-- [ ] **Editor Dinâmico de Mundos:** Melhorar a página "Editor de Templates". Em vez de utilizar um único `textarea` gigante para editar JSON cru, a interface deve renderizar os dados como um formulário limpo, dividindo Mundo, NPCs, Estado do Jogador, etc., em campos editáveis separados.
-- [ ] **Leitor de Narrativas Salvas:** Criar uma tela dedicada (ou adicionar à Dashboard/Gerador) para listar todas as histórias e simulações já geradas, permitindo a leitura rápida sem precisar abrir os arquivos `.txt` e `.json` manualmente.
-- [ ] **Retomada de Histórias Incompletas:** Adicionar na UI a funcionalidade de "Carregar História", permitindo continuar a geração (seja no modo Simulador Interativo ou no Gerador Contínuo) exatamente de onde o processo parou (já existente no CLI, falta trazer para o Streamlit).
+- [x] **Editor Dinâmico de Mundos:** Melhorar a página "Editor de Templates". Em vez de utilizar um único `textarea` gigante para editar JSON cru, a interface deve renderizar os dados como um formulário limpo, dividindo Mundo, NPCs, Estado do Jogador, etc., em campos editáveis separados.
+- [x] **Leitor de Narrativas Salvas:** Criar uma tela dedicada (ou adicionar à Dashboard/Gerador) para listar todas as histórias e simulações já geradas, permitindo a leitura rápida sem precisar abrir os arquivos `.txt` e `.json` manualmente.
+- [x] **Retomada de Histórias Incompletas:** Adicionar na UI a funcionalidade de "Carregar História", permitindo continuar a geração (seja no modo Simulador Interativo ou no Gerador Contínuo) exatamente de onde o processo parou (já existente no CLI, falta trazer para o Streamlit).
 
 ### Backlog de Banco de Dados e Infraestrutura
 

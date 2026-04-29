@@ -2,7 +2,7 @@ from app.services.simulation_service import start_new_simulation, resume_simulat
 from app.services.story_service import generate_story, resume_story
 from app.services.config_service import load_environment_variables, update_environment_variable, list_world_templates, get_world_template, save_world_template
 from app.repository.save_repository import list_saves
-from app.repository.story_generation_repository import list_story_saves
+from app.repository.story_generation_repository import list_story_saves, list_exported_stories, get_exported_story
 
 # ---- SIMULATION ROUTES ----
 def api_start_simulation(template_filename: str):
@@ -30,6 +30,12 @@ def api_resume_story(save_filename: str):
 
 def api_list_story_saves():
     return list_story_saves()
+
+def api_list_exported_stories():
+    return list_exported_stories()
+
+def api_get_exported_story(filename: str):
+    return get_exported_story(filename)
 
 # ---- CONFIG & TEMPLATES ROUTES ----
 def api_get_env():
