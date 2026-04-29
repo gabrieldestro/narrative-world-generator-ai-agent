@@ -14,6 +14,14 @@ def render():
             st.warning("Nenhum template encontrado.")
         else:
             selected_template = st.selectbox("Escolha um template", templates, key="new_story")
+            
+            # Show history
+            from app.api_facade import api_get_template
+            template_data = api_get_template(selected_template)
+            history = template_data.get("history", "")
+            if history:
+                st.info(f"**Sobre o Mundo:**\n\n{history}")
+                
             if st.button("Gerar História", type="primary"):
                 with st.spinner("A IA está escrevendo a história... Isso pode demorar vários minutos."):
                     try:

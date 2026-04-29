@@ -32,21 +32,13 @@ def get_npc_color(npc_name: str):
 
 
 def stream_panel(title: str, full_text: str, style: str):
-    displayed_text = Text()
     if (DEBUG):
         print(full_text)
         return 
     
-    with Live(refresh_per_second=60, console=console) as live:
-        for char in full_text:
-            displayed_text.append(char)
-            panel = Panel(displayed_text, title=title, style=style)
-            live.update(panel)
-            time.sleep(STREAM_DELAY)
-
-            # pausa dramática
-            if char in [".", "!", "?"]:
-                time.sleep(0.1)
+    displayed_text = Text(full_text)
+    panel = Panel(displayed_text, title=title, style=style)
+    console.print(panel)
 
 
 def print_player(text: str):

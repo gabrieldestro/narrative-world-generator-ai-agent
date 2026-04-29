@@ -24,6 +24,14 @@ def render():
             templates = api_list_templates()
             if templates:
                 selected_template = st.selectbox("Escolha um template", templates, key="new_sim")
+                
+                # Show history
+                from app.api_facade import api_get_template
+                template_data = api_get_template(selected_template)
+                history = template_data.get("history", "")
+                if history:
+                    st.info(f"**Sobre o Mundo:**\n\n{history}")
+                
                 if st.button("Iniciar Novo"):
                     with st.spinner("Inicializando o mundo..."):
                         st.session_state.sim_state = api_start_simulation(selected_template)
@@ -64,35 +72,47 @@ def render():
         # Ações
         st.markdown("### Sua vez")
         
-        col_type, col_input = st.columns([1, 4])
-        with col_type:
-            action_type = st.selectbox("Ação", ["Agir", "Falar"])
-        with col_input:
-            action_input = st.text_input("O que você faz/diz?", key="action_input")
+        if "sim_processing" not in st.session_state:
+            st.session_state.sim_processing = False
             
-        if st.button("Enviar", type="primary"):
-            if action_input:
-                choice_map = {"Agir": "act", "Falar": "speak"}
-                payload = {"player_choice_type": choice_map[action_type], "player_content": action_input, "target_npc_id": None}
-                with st.spinner("Processando turno... Isso pode levar um minuto."):
-                    st.session_state.sim_state = api_process_turn(state, payload)
+        if st.session_state.sim_processing:
+            st.info("A IA está processando a história... Por favor, aguarde.")
+            if "sim_payload" in st.session_state:
+                payload = st.session_state.sim_payload
+                del st.session_state.sim_payload
+                st.session_state.sim_state = api_process_turn(state, payload)
+                st.session_state.sim_processing = False
                 st.rerun()
-            else:
-                st.warning("Por favor, digite uma ação ou fala.")
-                    
-        st.markdown("<br><br>", unsafe_allow_html=True)
-        col3, col4, col5 = st.columns(3)
-        with col3:
-            if st.button("Apenas Continuar"):
-                payload = {"player_choice_type": "continue", "player_content": "", "target_npc_id": None}
-                with st.spinner("Avançando a história..."):
-                    st.session_state.sim_state = api_process_turn(state, payload)
-                st.rerun()
-        with col4:
-            if st.button("Salvar Jogo"):
-                api_save_simulation(state)
-                st.success("Jogo salvo!")
-        with col5:
-            if st.button("Encerrar Sessão"):
-                st.session_state.sim_state = None
-                st.rerun()
+        else:
+            col_type, col_input = st.columns([1, 4])
+            with col_type:
+                action_type = st.selectbox("Ação", ["Agir", "Falar"])
+            with col_input:
+                action_input = st.text_input("O que você faz/diz?", key="action_input")
+                
+            if st.button("Enviar", type="primary"):
+                if action_input:
+                    choice_map = {"Agir": "act", "Falar": "speak"}
+                    payload = {"player_choice_type": choice_map[action_type], "player_content": action_input, "target_npc_id": None}
+                    st.session_state.sim_payload = payload
+                    st.session_state.sim_processing = True
+                    st.rerun()
+                else:
+                    st.warning("Por favor, digite uma ação ou fala.")
+                        
+            st.markdown("<br><br>", unsafe_allow_html=True)
+            col3, col4, col5 = st.columns(3)
+            with col3:
+                if st.button("Apenas Continuar"):
+                    payload = {"player_choice_type": "continue", "player_content": "", "target_npc_id": None}
+                    st.session_state.sim_payload = payload
+                    st.session_state.sim_processing = True
+                    st.rerun()
+            with col4:
+                if st.button("Salvar Jogo"):
+                    api_save_simulation(state)
+                    st.success("Jogo salvo!")
+            with col5:
+                if st.button("Encerrar Sessão"):
+                    st.session_state.sim_state = None
+                    st.rerun()
