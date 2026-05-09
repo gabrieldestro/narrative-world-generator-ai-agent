@@ -16,7 +16,7 @@ class OpenAiProvider(BaseLLMProvider):
         )
         self.model = MODEL_NAME
 
-    def generate(self, system_prompt, messages, turn_id):
+    def generate(self, system_prompt, messages, turn_id, stream_callback=None):
 
         start = time.time()
         
@@ -26,23 +26,37 @@ class OpenAiProvider(BaseLLMProvider):
         response = self.client.chat.completions.create(
             model=self.model,
             messages=api_messages,
-            temperature=TEMPERATURE
+            temperature=TEMPERATURE,
+            stream=bool(stream_callback)
         )
+        
+        full_content = ""
+        usage = None
+        
+        if stream_callback:
+            for chunk in response:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    content_piece = chunk.choices[0].delta.content
+                    full_content += content_piece
+                    stream_callback(content_piece)
+        else:
+            full_content = response.choices[0].message.content
+            usage = response.usage
 
         latency = time.time() - start
         usage = response.usage
 
         return LLMResponse(
-            content=response.choices[0].message.content,
+            content=full_content,
             tool_calls=None,
-            prompt_tokens=getattr(usage, "prompt_tokens", None),
-            completion_tokens=getattr(usage, "completion_tokens", None),
-            total_tokens=getattr(usage, "total_tokens", None),
+            prompt_tokens=getattr(usage, "prompt_tokens", None) if usage else None,
+            completion_tokens=getattr(usage, "completion_tokens", None) if usage else None,
+            total_tokens=getattr(usage, "total_tokens", None) if usage else None,
             latency=latency
         )
 
 
-    def generate_with_tools(self, system_prompt, messages, tools, turn_id):
+    def generate_with_tools(self, system_prompt, messages, tools, turn_id, stream_callback=None):
 
         start = time.time()
         
@@ -53,30 +67,59 @@ class OpenAiProvider(BaseLLMProvider):
             model=self.model,
             messages=api_messages,
             tools=tools,
-            tool_choice="auto"
+            tool_choice="auto",
+            stream=bool(stream_callback)
         )
 
-        latency = time.time() - start
-        message = response.choices[0].message
-
+        full_content = ""
         tool_calls = None
+        usage = None
 
-        if message.tool_calls:
-            tool_calls = []
-            for call in message.tool_calls:
-                tool_calls.append({
-                    "id": call.id,
-                    "name": call.function.name,
-                    "arguments": json.loads(call.function.arguments)
-                })
+        if stream_callback:
+            tool_calls_dict = {}
+            for chunk in response:
+                if not chunk.choices:
+                    continue
+                delta = chunk.choices[0].delta
+                if delta.content:
+                    content_piece = delta.content
+                    full_content += content_piece
+                    stream_callback(content_piece)
+                if delta.tool_calls:
+                    for tc in delta.tool_calls:
+                        if tc.index not in tool_calls_dict:
+                            tool_calls_dict[tc.index] = {"id": tc.id, "name": tc.function.name, "arguments": ""}
+                        if tc.function.arguments:
+                            tool_calls_dict[tc.index]["arguments"] += tc.function.arguments
+                            
+            if tool_calls_dict:
+                tool_calls = []
+                for idx, tc in tool_calls_dict.items():
+                    tool_calls.append({
+                        "id": tc["id"],
+                        "name": tc["name"],
+                        "arguments": json.loads(tc["arguments"])
+                    })
+        else:
+            message = response.choices[0].message
+            full_content = message.content or ""
+            if message.tool_calls:
+                tool_calls = []
+                for call in message.tool_calls:
+                    tool_calls.append({
+                        "id": call.id,
+                        "name": call.function.name,
+                        "arguments": json.loads(call.function.arguments)
+                    })
+            usage = response.usage
 
-        usage = response.usage
+        latency = time.time() - start
 
         return LLMResponse(
-            content=message.content or "",
+            content=full_content,
             tool_calls=tool_calls,
-            prompt_tokens=getattr(usage, "prompt_tokens", None),
-            completion_tokens=getattr(usage, "completion_tokens", None),
-            total_tokens=getattr(usage, "total_tokens", None),
+            prompt_tokens=getattr(usage, "prompt_tokens", None) if usage else None,
+            completion_tokens=getattr(usage, "completion_tokens", None) if usage else None,
+            total_tokens=getattr(usage, "total_tokens", None) if usage else None,
             latency=latency
         )

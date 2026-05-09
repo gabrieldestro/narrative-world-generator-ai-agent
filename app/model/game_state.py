@@ -1,5 +1,5 @@
 import operator
-from typing import Annotated, TypedDict, Dict, List, Optional
+from typing import Annotated, TypedDict, Dict, List, Optional, Any
 import uuid
 from app.model.quest_state import QuestState
 from app.model.world_state import WorldState
@@ -29,3 +29,4 @@ class GameState(TypedDict):
     pending_tool_calls: Optional[List[dict]]
     last_llm_message: Optional[str]
     tool_executor: ToolExecutor
+    stream_callback: Optional[Any]

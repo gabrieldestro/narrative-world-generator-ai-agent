@@ -14,7 +14,8 @@ import json
 def call_llm(
     system_prompt: str,
     messages: list,
-    turn_id: str
+    turn_id: str,
+    stream_callback=None
 ):
     provider = get_llm_provider(PROVIDER_NAME)
 
@@ -24,7 +25,8 @@ def call_llm(
     response = provider.generate(
         system_prompt=system_prompt,
         messages=messages,
-        turn_id=turn_id
+        turn_id=turn_id,
+        stream_callback=stream_callback
     )
 
     llm_logger.info(
@@ -52,7 +54,8 @@ def call_llm_with_tools(
     system_prompt: str,
     messages: list,
     tools,
-    turn_id: str
+    turn_id: str,
+    stream_callback=None
 ):
     provider = get_llm_provider(PROVIDER_NAME)
 
@@ -63,7 +66,8 @@ def call_llm_with_tools(
         system_prompt=system_prompt,
         messages=messages,
         tools=WORLD_TOOLS_SCHEMA,
-        turn_id=turn_id
+        turn_id=turn_id,
+        stream_callback=stream_callback
     )
 
     # 🔥 Log estruturado

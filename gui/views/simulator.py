@@ -83,9 +83,21 @@ def render():
             
         if st.session_state.sim_processing:
             if "sim_payload" in st.session_state:
-                st.info("A IA está processando a história... Por favor, aguarde.")
+                stream_container = st.empty()
                 payload = st.session_state.sim_payload
+                
+                accumulated = ""
+                def handle_chunk(chunk: str):
+                    nonlocal accumulated
+                    accumulated += chunk
+                    stream_container.markdown(accumulated + "▌")
+                
+                state["stream_callback"] = handle_chunk
                 new_state = api_process_turn(state, payload)
+                
+                if "stream_callback" in new_state:
+                    del new_state["stream_callback"]
+                    
                 st.session_state.sim_state = new_state
                 del st.session_state.sim_payload
                 st.session_state.sim_processing = False

@@ -10,12 +10,18 @@ from app.consts import SCENE_LOG_MEMORY
 
 def simulation_phase_lite(state):
     turn = state.get("turn_state")
+    stream_callback = state.get("stream_callback")
     messages = state.get("messages", [])
     if turn:
         player_action = f"O jogador fez:\n{turn['player_content']}"
         messages.append({"role": "user", "content": player_action})
 
-    response = call_llm(_get_system_prompt(state), messages, state["turn_number"])
+    response = call_llm(
+        _get_system_prompt(state), 
+        messages, 
+        state["turn_number"],
+        stream_callback=stream_callback
+    )
 
     messages.append({"role": "assistant", "content": response})
     state["messages"] = messages

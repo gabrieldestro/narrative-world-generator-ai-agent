@@ -28,7 +28,7 @@ O Streamlit será totalmente descartado e substituído por uma Single Page Appli
 2.  **Integração REST**: Criar `Services` no Angular (`simulation.service.ts`) que apontarão para os endpoints do FastAPI.
 3.  **Benefícios Visuais**: 
     *   O Streamlit limita fortemente o layout. Com Angular e bibliotecas como TailwindCSS, implementaremos animações fluidas, efeitos de "digitação de máquina" para a IA, e interfaces Drag-and-Drop para o editor de JSON.
-    *   **WebSockets**: Implementar conexões WebSocket no FastAPI e no Angular para gerar o texto da história (stream) em tempo real, eliminando a longa barra de carregamento.
+    *   **SSE (Server-Sent Events) / WebSockets**: Implementar endpoints de streaming no FastAPI para gerar o texto da história em tempo real. O backend atual já está preparado para isso com o design de `stream_callback`: o FastAPI poderá instanciar uma `asyncio.Queue`, injetar uma função que empilha os *chunks* no `GameState`, e processar essa fila assincronamente retornando uma `StreamingResponse` consumida nativamente pelo frontend Angular.
 
 ## Resumo das Decisões Tomadas
 - O Streamlit servirá **apenas como prova de conceito** para validar se a quebra de Serviços/Facade foi bem feita.

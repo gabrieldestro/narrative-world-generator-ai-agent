@@ -14,6 +14,7 @@ from app.consts import SCENE_LOG_MEMORY
 def simulation_phase(state: GameState):
 
     turn = state.get("turn_state")
+    stream_callback = state.get("stream_callback")
     player_action = ""
 
     if turn:
@@ -90,7 +91,8 @@ def simulation_phase(state: GameState):
         system_prompt,
         messages,
         tools=WORLD_TOOLS_SCHEMA,
-        turn_id=state["turn_number"]
+        turn_id=state["turn_number"],
+        stream_callback=stream_callback
     )
 
     messages.append({"role": "assistant", "content": response.content})
