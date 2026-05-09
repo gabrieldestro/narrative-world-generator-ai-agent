@@ -10,11 +10,11 @@ Este documento atua como um backlog de melhorias que devem ser aplicadas à vers
 
 ### Backlog de UI/UX Adicional e Correções (Streamlit)
 
-- [ ] **State & Bug Fixes:** Ajustar o bug quando o usuário sai da janela de simulação enquanto a IA está processando.
-- [ ] **Melhorias de UX:** Melhorar certos aspectos da UI (ex: esconder campos que não são relevantes quando determinadas opções estão selecionadas, e separar visualmente a parte de gerar narrativa nova de carregar).
-- [ ] **Simulador Narrativo (Exibição de Local):** Ao invés de exibir apenas o ID do lugar, buscar e exibir o respectivo nome.
-- [ ] **Correção do Gerador:** Testar a parte de "Gerar História", pois parece que está quebrada e não gerando corretamente.
-- [ ] **Simulação Completa c/ Tools:** Ver como a ferramenta vai se comportar quando usar a simulação completa rodando com "tools" acionadas.
+- [x] **State & Bug Fixes:** Ajustar o bug quando o usuário sai da janela de simulação enquanto a IA está processando.
+- [x] **Melhorias de UX:** Melhorar certos aspects da UI (ex: esconder campos que não são relevantes quando determinadas opções estão selecionadas, e separar visualmente a parte de gerar narrativa nova de carregar).
+- [x] **Simulador Narrativo (Exibição de Local):** Ao invés de exibir apenas o ID do lugar, buscar e exibir o respectivo nome.
+- [ ] (Não fazer agora) **Correção do Gerador:** Testar a parte de "Gerar História", pois parece que está quebrada e não gerando corretamente.
+- [ ] (Não fazer agora) **Simulação Completa c/ Tools:** Ver como a ferramenta vai se comportar quando usar a simulação completa rodando com "tools" acionadas.
 
 
 ### Backlog de Banco de Dados e Infraestrutura

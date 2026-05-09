@@ -5,9 +5,9 @@ def render():
     st.title("Gerador de Histórias Automático")
     st.markdown("Selecione um mundo e deixe a IA criar uma história completa, ou retome uma geração anterior.")
     
-    col1, col2 = st.columns(2)
+    tab1, tab2 = st.tabs(["Nova História", "Retomar Geração"])
     
-    with col1:
+    with tab1:
         st.subheader("Nova História")
         templates = api_list_templates()
         if not templates:
@@ -31,7 +31,7 @@ def render():
                     except Exception as e:
                         st.error(f"Ocorreu um erro: {e}")
                         
-    with col2:
+    with tab2:
         st.subheader("Retomar Geração")
         saves = api_list_story_saves()
         if not saves:

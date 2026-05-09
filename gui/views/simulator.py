@@ -17,9 +17,9 @@ def render():
     if st.session_state.sim_state is None:
         st.subheader("Iniciar Simulação")
         
-        col1, col2 = st.columns(2)
+        tab1, tab2 = st.tabs(["Nova Simulação", "Carregar Jogo Salvo"])
         
-        with col1:
+        with tab1:
             st.markdown("**Nova Simulação**")
             templates = api_list_templates()
             if templates:
@@ -39,7 +39,7 @@ def render():
             else:
                 st.warning("Nenhum template encontrado.")
                 
-        with col2:
+        with tab2:
             st.markdown("**Carregar Jogo Salvo**")
             saves = api_list_simulation_saves()
             if saves:
@@ -54,7 +54,13 @@ def render():
         state = st.session_state.sim_state
         
         st.subheader(f"Turno: {state.get('turn_number', 0)}")
-        st.write(f"**Local Atual:** {state.get('player_state', {}).get('current_location', 'Desconhecido')}")
+        location_id = state.get('player_state', {}).get('current_location', 'Desconhecido')
+        location_name = location_id
+        for loc in state.get('locations', []):
+            if loc.get('id') == location_id:
+                location_name = loc.get('name', location_id)
+                break
+        st.write(f"**Local Atual:** {location_name}")
         
         # Histórico Completo
         st.markdown("### História")
@@ -76,11 +82,15 @@ def render():
             st.session_state.sim_processing = False
             
         if st.session_state.sim_processing:
-            st.info("A IA está processando a história... Por favor, aguarde.")
             if "sim_payload" in st.session_state:
+                st.info("A IA está processando a história... Por favor, aguarde.")
                 payload = st.session_state.sim_payload
+                new_state = api_process_turn(state, payload)
+                st.session_state.sim_state = new_state
                 del st.session_state.sim_payload
-                st.session_state.sim_state = api_process_turn(state, payload)
+                st.session_state.sim_processing = False
+                st.rerun()
+            else:
                 st.session_state.sim_processing = False
                 st.rerun()
         else:
