@@ -20,6 +20,7 @@ class GameState(TypedDict):
     player_state: PlayerState
     turn_state: Optional[TurnState]
     scene_log: List[str]
+    messages: List[Dict[str, str]]
     turn_number: int
 
     # simulation engine properties

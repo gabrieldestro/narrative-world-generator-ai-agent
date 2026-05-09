@@ -9,12 +9,16 @@ class GeminiProvider(BaseLLMProvider):
         genai.configure(api_key="YOUR_GEMINI_KEY")
         self.model = genai.GenerativeModel("gemini-1.5-pro")
 
-    def generate(self, system_prompt, user_prompt, turn_id):
+    def generate(self, system_prompt, messages, turn_id):
 
         start = time.time()
+        
+        prompt = system_prompt + "\n\n"
+        for msg in messages:
+            prompt += f"{msg.get('role', 'user')}: {msg.get('content', '')}\n"
 
         response = self.model.generate_content(
-            f"{system_prompt}\n\n{user_prompt}"
+            prompt
         )
 
         latency = time.time() - start
@@ -28,12 +32,16 @@ class GeminiProvider(BaseLLMProvider):
             latency=latency
         )
 
-    def generate_with_tools(self, system_prompt, user_prompt, tools, turn_id):
+    def generate_with_tools(self, system_prompt, messages, tools, turn_id):
 
         start = time.time()
+        
+        prompt = system_prompt + "\n\n"
+        for msg in messages:
+            prompt += f"{msg.get('role', 'user')}: {msg.get('content', '')}\n"
 
         response = self.model.generate_content(
-            f"{system_prompt}\n\n{user_prompt}",
+            prompt,
             tools=tools
         )
 

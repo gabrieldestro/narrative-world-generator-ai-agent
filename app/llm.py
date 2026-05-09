@@ -13,17 +13,17 @@ import json
 
 def call_llm(
     system_prompt: str,
-    user_prompt: str,
+    messages: list,
     turn_id: str
 ):
     provider = get_llm_provider(PROVIDER_NAME)
 
     stream_panel("Sistema", "Processando. Aguarde ...", "magenta")
-    log("debug", f"\n\ncall_llm: {system_prompt} \n {user_prompt}\n\n")
+    log("debug", f"\n\ncall_llm: {system_prompt} \n {messages}\n\n")
 
     response = provider.generate(
         system_prompt=system_prompt,
-        user_prompt=user_prompt,
+        messages=messages,
         turn_id=turn_id
     )
 
@@ -39,7 +39,7 @@ def call_llm(
                 "completion_tokens": response.completion_tokens,
                 "total_tokens": response.total_tokens,
                 "system_prompt": system_prompt,
-                "user_prompt": user_prompt,
+                "messages": messages,
                 "response": response.content,
             }
         }
@@ -50,18 +50,18 @@ def call_llm(
 
 def call_llm_with_tools(
     system_prompt: str,
-    user_prompt: str,
+    messages: list,
     tools,
     turn_id: str
 ):
     provider = get_llm_provider(PROVIDER_NAME)
 
     stream_panel("Sistema", "Processando. Aguarde ...", "magenta")
-    log("debug", f"\n\ncall_llm_with_tools: {system_prompt} \n {user_prompt}\n\n")
+    log("debug", f"\n\ncall_llm_with_tools: {system_prompt} \n {messages}\n\n")
 
     response = provider.generate_with_tools(
         system_prompt=system_prompt,
-        user_prompt=user_prompt,
+        messages=messages,
         tools=WORLD_TOOLS_SCHEMA,
         turn_id=turn_id
     )
@@ -79,7 +79,7 @@ def call_llm_with_tools(
                 "completion_tokens": response.completion_tokens,
                 "total_tokens": response.total_tokens,
                 "system_prompt": system_prompt,
-                "user_prompt": user_prompt,
+                "messages": messages,
                 "response": response.content,
             }
         }

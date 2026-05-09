@@ -10,17 +10,15 @@ from app.consts import SCENE_LOG_MEMORY
 
 def simulation_phase_lite(state):
     turn = state.get("turn_state")
-    player_action = ""
+    messages = state.get("messages", [])
     if turn:
-        player_action = f"{turn['player_content']}"
+        player_action = f"O jogador fez:\n{turn['player_content']}"
+        messages.append({"role": "user", "content": player_action})
 
-    user_prompt = f"""
-    O jogador fez:
-        {player_action}
+    response = call_llm(_get_system_prompt(state), messages, state["turn_number"])
 
-    """
-
-    response = call_llm(_get_system_prompt(state), user_prompt, state["turn_number"])
+    messages.append({"role": "assistant", "content": response})
+    state["messages"] = messages
 
     if (turn):
         state["scene_log"].append(f"Jogador: {player_action}")
@@ -35,7 +33,6 @@ def simulation_phase_lite(state):
 
 def _get_system_prompt(state: GameState):
     location = state["player_state"]["current_location"]
-    history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
     
     narrative_description = ""
     if (state["turn_number"] == 1): 
@@ -77,11 +74,5 @@ def _get_system_prompt(state: GameState):
     Faça os NPCs serem ativos participantes que movem a história, não apenas rejam as ações do jogador.
     """
 
-
-    if (SCENE_LOG_MEMORY > 0):
-        system_prompt += f"""
-        Histórico recente:
-            {history}
-        """
 
     return system_prompt

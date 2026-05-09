@@ -12,16 +12,16 @@ class LocalProvider(BaseLLMProvider):
         )
         self.model = "local-model"
 
-    def generate(self, system_prompt, user_prompt, turn_id):
+    def generate(self, system_prompt, messages, turn_id):
 
         start = time.time()
+        
+        api_messages = [{"role": "system", "content": system_prompt}]
+        api_messages.extend(messages)
 
         response = self.client.chat.completions.create(
             model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
+            messages=api_messages,
         )
 
         latency = time.time() - start
@@ -38,16 +38,16 @@ class LocalProvider(BaseLLMProvider):
         )
 
 
-    def generate_with_tools(self, system_prompt, user_prompt, tools, turn_id):
+    def generate_with_tools(self, system_prompt, messages, tools, turn_id):
 
         start = time.time()
+        
+        api_messages = [{"role": "system", "content": system_prompt}]
+        api_messages.extend(messages)
 
         response = self.client.chat.completions.create(
             model=self.model,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt}
-            ],
+            messages=api_messages,
             tools=tools,
             tool_choice="auto"
         )

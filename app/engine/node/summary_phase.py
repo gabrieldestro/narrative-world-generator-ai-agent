@@ -5,32 +5,38 @@ from app.config import DEBUG
 from app.consts import SCENE_LOG_MEMORY
 
 def summary_phase(state):
-    if (len(state['scene_log']) >= SCENE_LOG_MEMORY):
-        history = "\n".join(state['scene_log'][-SCENE_LOG_MEMORY:])
+    messages = state.get('messages', [])
+    if len(messages) >= SCENE_LOG_MEMORY:
+        # Pega as mensagens antigas para resumir (deixa as 2 últimas intactas para manter o contexto imediato)
+        messages_to_summarize = messages[:-2]
+        history = ""
+        for msg in messages_to_summarize:
+            role = msg.get("role", "unknown")
+            content = msg.get("content", "")
+            history += f"{role}: {content}\n"
 
         system_prompt = f"""
-            Você é o narrador de um mundo Sandbox seu objetivo é resumir os principais acontecimentos até agora
-            baseado em um log de eventos de modo que a história possa continuar a partir deste resumo.
+            Você é o narrador de um mundo Sandbox seu objetivo é resumir os principais acontecimentos
+            baseado neste log de conversa de modo que a história possa continuar a partir deste resumo.
 
-            Destaque os principais acontecimentos em ordem cronológica.
-
-            Não começe com "Resumo", apenas descreva os pontos.
-
-            Não de sugestões sobre o que o jogador pode fazer em seguida.
+            Destaque os principais acontecimentos de forma concisa.
+            Não comece com "Resumo", apenas descreva os pontos.
+            Não dê sugestões sobre o que o jogador pode fazer em seguida.
             """
 
-        user_prompt = f"""
-            {history}
-            """
+        # Como a chamada llm precisará de 'messages', passamos como uma interação user para o resumo
+        user_msg = [{"role": "user", "content": history}]
+        response = call_llm(system_prompt, user_msg, "summary")
 
-        response = call_llm(system_prompt, user_prompt, "1")
+        # Mantemos o sumário como o contexto inicial e as 2 últimas interações completas
+        new_messages = [{"role": "system", "content": f"Resumo do que aconteceu antes:\n{response}"}]
+        new_messages.extend(messages[-2:])
+        
+        state["messages"] = new_messages
 
-        state["scene_log"] = []
-        state["scene_log"].append(response)
+        if DEBUG:
+            print(f"\nResumo criado: {response}")
 
-        if (DEBUG):
-            print(f"\nResumo até agora: {response}")
-
-        log("NPCs", response)
+        log("System", f"Resumo criado: {response}")
 
     return state

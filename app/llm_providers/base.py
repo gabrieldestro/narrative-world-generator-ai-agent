@@ -16,9 +16,9 @@ class LLMResponse:
 class BaseLLMProvider(ABC):
 
     @abstractmethod
-    def generate(self, system_prompt: str, user_prompt: str, turn_id: str) -> LLMResponse:
+    def generate(self, system_prompt: str, messages: list, turn_id: str) -> LLMResponse:
         pass
 
     @abstractmethod
-    def generate_with_tools(self, system_prompt, user_prompt, tools, turn_id) -> LLMResponse:
+    def generate_with_tools(self, system_prompt: str, messages: list, tools, turn_id: str) -> LLMResponse:
         pass

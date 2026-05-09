@@ -71,10 +71,9 @@ def simulation_phase(state: GameState):
 
         Estado do mundo:
         {get_world_context(state)}
-
-        Histórico recente:
-        {"\n".join(state["scene_log"][-SCENE_LOG_MEMORY:])}
         """
+
+    messages = state.get("messages", [])
 
     user_prompt = f"""
         {state['player_state']['name']} fez:
@@ -85,12 +84,17 @@ def simulation_phase(state: GameState):
         Se necessário, use ferramentas para atualizar o estado do mundo.
         """
 
+    messages.append({"role": "user", "content": user_prompt})
+
     response = call_llm_with_tools(
         system_prompt,
-        user_prompt,
+        messages,
         tools=WORLD_TOOLS_SCHEMA,
         turn_id=state["turn_number"]
     )
+
+    messages.append({"role": "assistant", "content": response.content})
+    state["messages"] = messages
 
     # -------- SCENE LOG --------
 

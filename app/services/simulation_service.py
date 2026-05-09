@@ -11,6 +11,9 @@ def start_new_simulation(template_filename: str) -> dict:
         raise ValueError(f"Template {template_filename} não encontrado.")
     
     state['simulation_id'] = str(uuid.uuid4())
+    state['messages'] = []
+    if 'scene_log' not in state:
+        state['scene_log'] = []
     state = build_tools(state)
     
     graph = build_graph()
